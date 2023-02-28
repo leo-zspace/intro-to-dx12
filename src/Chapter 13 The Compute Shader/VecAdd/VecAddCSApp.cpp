@@ -38,7 +38,7 @@ struct RenderItem
 
 	// Dirty flag indicating the object data has changed and we need to update the constant buffer.
 	// Because we have an object cbuffer for each FrameResource, we have to apply the
-	// update to each FrameResource.  Thus, when we modify obect data we should set 
+	// update to each FrameResource.  Thus, when we modify obect data we should set
 	// NumFramesDirty = gNumFrameResources so that each frame resource gets the update.
 	int NumFramesDirty = gNumFrameResources;
 
@@ -114,7 +114,7 @@ private:
 	std::unordered_map<std::string, ComPtr<ID3D12PipelineState>> mPSOs;
 
     std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout;
- 
+
     RenderItem* mWavesRitem = nullptr;
 
 	// List of all the render items.
@@ -187,7 +187,7 @@ bool VecAddCSApp::Initialize()
     // Reset the command list to prep for initialization commands.
     ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), nullptr));
 
-    // Get the increment size of a descriptor in this heap type.  This is hardware specific, 
+    // Get the increment size of a descriptor in this heap type.  This is hardware specific,
 	// so we have to query this information.
     mCbvSrvDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
@@ -210,7 +210,7 @@ bool VecAddCSApp::Initialize()
 
     return true;
 }
- 
+
 void VecAddCSApp::OnResize()
 {
     D3DApp::OnResize();
@@ -283,8 +283,8 @@ void VecAddCSApp::Draw(const GameTimer& gt)
     // Advance the fence value to mark commands up to this fence point.
     mCurrFrameResource->Fence = ++mCurrentFence;
 
-    // Add an instruction to the command queue to set a new fence point. 
-    // Because we are on the GPU timeline, the new fence point won't be 
+    // Add an instruction to the command queue to set a new fence point.
+    // Because we are on the GPU timeline, the new fence point won't be
     // set until the GPU finishes processing all the commands prior to this Signal().
     mCommandQueue->Signal(mFence.Get(), mCurrentFence);
 }
@@ -333,7 +333,7 @@ void VecAddCSApp::OnMouseMove(WPARAM btnState, int x, int y)
     mLastMousePos.x = x;
     mLastMousePos.y = y;
 }
- 
+
 void VecAddCSApp::DoComputeWork()
 {
 	// Reuse the memory associated with command recording.
@@ -349,7 +349,7 @@ void VecAddCSApp::DoComputeWork()
 	mCommandList->SetComputeRootShaderResourceView(0, mInputBufferA->GetGPUVirtualAddress());
 	mCommandList->SetComputeRootShaderResourceView(1, mInputBufferB->GetGPUVirtualAddress());
 	mCommandList->SetComputeRootUnorderedAccessView(2, mOutputBuffer->GetGPUVirtualAddress());
- 
+
 	mCommandList->Dispatch(1, 1, 1);
 
 	// Schedule to copy the data to the default buffer to the readback buffer.
@@ -393,11 +393,12 @@ void VecAddCSApp::BuildBuffers()
 	std::vector<Data> dataB(NumDataElements);
 	for(int i = 0; i < NumDataElements; ++i)
 	{
-		dataA[i].v1 = XMFLOAT3(i, i, i);
-		dataA[i].v2 = XMFLOAT2(i, 0);
+		float fi = (float)i;
+		dataA[i].v1 = XMFLOAT3(fi, fi, fi);
+		dataA[i].v2 = XMFLOAT2(fi, 0);
 
-		dataB[i].v1 = XMFLOAT3(-i, i, 0.0f);
-		dataB[i].v2 = XMFLOAT2(0, -i);
+		dataB[i].v1 = XMFLOAT3(-fi, fi, 0.0f);
+		dataB[i].v2 = XMFLOAT2(0, -fi);
 	}
 
 	UINT64 byteSize = dataA.size()*sizeof(Data);
@@ -425,7 +426,7 @@ void VecAddCSApp::BuildBuffers()
 		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
 		nullptr,
 		IID_PPV_ARGS(&mOutputBuffer)));
-	
+
 	ThrowIfFailed(md3dDevice->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_READBACK),
 		D3D12_HEAP_FLAG_NONE,
@@ -471,7 +472,7 @@ void VecAddCSApp::BuildRootSignature()
 
 void VecAddCSApp::BuildDescriptorHeaps()
 {
-	
+
 }
 
 void VecAddCSApp::BuildShadersAndInputLayout()
@@ -504,7 +505,7 @@ void VecAddCSApp::BuildFrameResources()
 std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> VecAddCSApp::GetStaticSamplers()
 {
 	// Applications usually only need a handful of samplers.  So just define them all up front
-	// and keep them available as part of the root signature.  
+	// and keep them available as part of the root signature.
 
 	const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
 		0, // shaderRegister
@@ -552,9 +553,9 @@ std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> VecAddCSApp::GetStaticSamplers(
 		0.0f,                              // mipLODBias
 		8);                                // maxAnisotropy
 
-	return { 
+	return {
 		pointWrap, pointClamp,
-		linearWrap, linearClamp, 
+		linearWrap, linearClamp,
 		anisotropicWrap, anisotropicClamp };
 }
 

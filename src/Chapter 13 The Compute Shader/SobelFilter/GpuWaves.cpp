@@ -8,7 +8,7 @@
 #include <vector>
 #include <cassert>
 
-GpuWaves::GpuWaves(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, 
+GpuWaves::GpuWaves(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList,
 	               int m, int n, float dx, float dt, float speed, float damping)
 {
 	md3dDevice = device;
@@ -124,7 +124,7 @@ void GpuWaves::BuildResources(ID3D12GraphicsCommandList* cmdList)
 
 	//
 	// In order to copy CPU memory data into our default buffer, we need to create
-	// an intermediate upload heap. 
+	// an intermediate upload heap.
 	//
 
 	const UINT num2DSubresources = texDesc.DepthOrArraySize * texDesc.MipLevels;
@@ -148,7 +148,7 @@ void GpuWaves::BuildResources(ID3D12GraphicsCommandList* cmdList)
 
 	// Describe the data we want to copy into the default buffer.
 	std::vector<float> initData(mNumRows*mNumCols, 0.0f);
-	for(int i = 0; i < initData.size(); ++i)
+	for(int i = 0; i < (int)initData.size(); ++i)
 		initData[i] = 0.0f;
 
 	D3D12_SUBRESOURCE_DATA subResourceData = {};
@@ -158,7 +158,7 @@ void GpuWaves::BuildResources(ID3D12GraphicsCommandList* cmdList)
 
 	//
 	// Schedule to copy the data to the default resource, and change states.
-	// Note that mCurrSol is put in the GENERIC_READ state so it can be 
+	// Note that mCurrSol is put in the GENERIC_READ state so it can be
 	// read by a shader.
 	//
 
@@ -189,7 +189,7 @@ void GpuWaves::BuildDescriptors(
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	srvDesc.Texture2D.MipLevels = 1;
-	
+
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
 
 	uavDesc.Format = DXGI_FORMAT_R32_FLOAT;
@@ -204,7 +204,7 @@ void GpuWaves::BuildDescriptors(
 	md3dDevice->CreateUnorderedAccessView(mCurrSol.Get(), nullptr, &uavDesc, hCpuDescriptor.Offset(1, descriptorSize));
 	md3dDevice->CreateUnorderedAccessView(mNextSol.Get(), nullptr, &uavDesc, hCpuDescriptor.Offset(1, descriptorSize));
 
-	// Save references to the GPU descriptors. 
+	// Save references to the GPU descriptors.
 	mPrevSolSrv = hGpuDescriptor;
 	mCurrSolSrv = hGpuDescriptor.Offset(1, descriptorSize);
 	mNextSolSrv = hGpuDescriptor.Offset(1, descriptorSize);
@@ -237,13 +237,13 @@ void GpuWaves::Update(
 		cmdList->SetComputeRootDescriptorTable(2, mCurrSolUav);
 		cmdList->SetComputeRootDescriptorTable(3, mNextSolUav);
 
-		// How many groups do we need to dispatch to cover the wave grid.  
+		// How many groups do we need to dispatch to cover the wave grid.
 		// Note that mNumRows and mNumCols should be divisible by 16
 		// so there is no remainder.
 		UINT numGroupsX = mNumCols / 16;
 		UINT numGroupsY = mNumRows / 16;
 		cmdList->Dispatch(numGroupsX, numGroupsY, 1);
- 
+
 		//
 		// Ping-pong buffers in preparation for the next update.
 		// The previous solution is no longer needed and becomes the target of the next solution in the next update.
@@ -304,4 +304,3 @@ void GpuWaves::Disturb(
 
 
 
- 

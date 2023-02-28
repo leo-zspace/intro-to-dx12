@@ -26,8 +26,8 @@ struct SkinnedModelInstance
     std::string ClipName;
     float TimePos = 0.0f;
 
-    // Called every frame and increments the time position, interpolates the 
-    // animations for each bone based on the current animation clip, and 
+    // Called every frame and increments the time position, interpolates the
+    // animations for each bone based on the current animation clip, and
     // generates the final transforms which are ultimately set to the effect
     // for processing in the vertex shader.
     void UpdateSkinnedAnimation(float dt)
@@ -49,7 +49,7 @@ struct RenderItem
 {
 	RenderItem() = default;
     RenderItem(const RenderItem& rhs) = delete;
- 
+
     // World matrix of the shape that describes the object's local space
     // relative to the world space, which defines the position, orientation,
     // and scale of the object in the world.
@@ -59,13 +59,13 @@ struct RenderItem
 
 	// Dirty flag indicating the object data has changed and we need to update the constant buffer.
 	// Because we have an object cbuffer for each FrameResource, we have to apply the
-	// update to each FrameResource.  Thus, when we modify obect data we should set 
+	// update to each FrameResource.  Thus, when we modify obect data we should set
 	// NumFramesDirty = gNumFrameResources so that each frame resource gets the update.
 	int NumFramesDirty = gNumFrameResources;
 
 	// Index into GPU constant buffer corresponding to the ObjectCB for this render item.
 	UINT ObjCBIndex = -1;
- 
+
 	Material* Mat = nullptr;
 	MeshGeometry* Geo = nullptr;
 
@@ -76,10 +76,10 @@ struct RenderItem
     UINT IndexCount = 0;
     UINT StartIndexLocation = 0;
     int BaseVertexLocation = 0;
-	
+
 	// Only applicable to skinned render-items.
     UINT SkinnedCBIndex = -1;
-	
+
     // nullptr if this render-item is not animated by skinned mesh.
     SkinnedModelInstance* SkinnedModelInst = nullptr;
 };
@@ -164,7 +164,7 @@ private:
 
     std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout;
     std::vector<D3D12_INPUT_ELEMENT_DESC> mSkinnedInputLayout;
- 
+
 	// List of all the render items.
 	std::vector<std::unique_ptr<RenderItem>> mAllRitems;
 
@@ -187,7 +187,7 @@ private:
 
     UINT mSkinnedSrvHeapStart = 0;
     std::string mSkinnedModelFilename = "Models\\soldier.m3d";
-    std::unique_ptr<SkinnedModelInstance> mSkinnedModelInst; 
+    std::unique_ptr<SkinnedModelInstance> mSkinnedModelInst;
     SkinnedData mSkinnedInfo;
     std::vector<M3DLoader::Subset> mSkinnedSubsets;
     std::vector<M3DLoader::M3dMaterial> mSkinnedMats;
@@ -268,7 +268,7 @@ bool SkinnedMeshApp::Initialize()
     ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), nullptr));
 
 	mCamera.SetPosition(0.0f, 2.0f, -15.0f);
- 
+
     mShadowMap = std::make_unique<ShadowMap>(md3dDevice.Get(),
         2048, 2048);
 
@@ -322,7 +322,7 @@ void SkinnedMeshApp::CreateRtvAndDsvDescriptorHeaps()
     ThrowIfFailed(md3dDevice->CreateDescriptorHeap(
         &dsvHeapDesc, IID_PPV_ARGS(mDsvHeap.GetAddressOf())));
 }
- 
+
 void SkinnedMeshApp::OnResize()
 {
     D3DApp::OnResize();
@@ -369,7 +369,7 @@ void SkinnedMeshApp::Update(const GameTimer& gt)
         lightDir = XMVector3TransformNormal(lightDir, R);
         XMStoreFloat3(&mRotatedLightDirections[i], lightDir);
     }
- 
+
 	AnimateMaterials(gt);
 	UpdateObjectCBs(gt);
     UpdateSkinnedCBs(gt);
@@ -401,16 +401,16 @@ void SkinnedMeshApp::Draw(const GameTimer& gt)
 	// Shadow map pass.
 	//
 
-    // Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and 
+    // Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and
     // set as a root descriptor.
     auto matBuffer = mCurrFrameResource->MaterialBuffer->Resource();
     mCommandList->SetGraphicsRootShaderResourceView(3, matBuffer->GetGPUVirtualAddress());
-	
+
     // Bind null SRV for shadow map pass.
-    mCommandList->SetGraphicsRootDescriptorTable(4, mNullSrv);	 
+    mCommandList->SetGraphicsRootDescriptorTable(4, mNullSrv);
 
     // Bind all the textures used in this scene.  Observe
-    // that we only have to specify the first descriptor in the table.  
+    // that we only have to specify the first descriptor in the table.
     // The root signature knows how many descriptors are expected in the table.
     mCommandList->SetGraphicsRootDescriptorTable(5, mSrvDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
 
@@ -419,25 +419,25 @@ void SkinnedMeshApp::Draw(const GameTimer& gt)
 	//
 	// Normal/depth pass.
 	//
-	
+
 	DrawNormalsAndDepth();
-	
+
 	//
 	//
-	// 
-	
+	//
+
     mCommandList->SetGraphicsRootSignature(mSsaoRootSignature.Get());
     mSsao->ComputeSsao(mCommandList.Get(), mCurrFrameResource, 2);
-	
+
 	//
 	// Main rendering pass.
 	//
-	
+
     mCommandList->SetGraphicsRootSignature(mRootSignature.Get());
 
     // Rebind state whenever graphics root signature changes.
 
-    // Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and 
+    // Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and
     // set as a root descriptor.
     matBuffer = mCurrFrameResource->MaterialBuffer->Resource();
     mCommandList->SetGraphicsRootShaderResourceView(3, matBuffer->GetGPUVirtualAddress());
@@ -458,15 +458,15 @@ void SkinnedMeshApp::Draw(const GameTimer& gt)
     mCommandList->OMSetRenderTargets(1, &CurrentBackBufferView(), true, &DepthStencilView());
 
 	// Bind all the textures used in this scene.  Observe
-    // that we only have to specify the first descriptor in the table.  
+    // that we only have to specify the first descriptor in the table.
     // The root signature knows how many descriptors are expected in the table.
     mCommandList->SetGraphicsRootDescriptorTable(5, mSrvDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
-	
+
     auto passCB = mCurrFrameResource->PassCB->Resource();
 	mCommandList->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 
     // Bind the sky cube map.  For our demos, we just use one "world" cube map representing the environment
-    // from far away, so all objects will use the same cube map and we only need to set it once per-frame.  
+    // from far away, so all objects will use the same cube map and we only need to set it once per-frame.
     // If we wanted to use "local" cube maps, we would have to change them per-object, or dynamically
     // index into an array of cube maps.
 
@@ -504,8 +504,8 @@ void SkinnedMeshApp::Draw(const GameTimer& gt)
     // Advance the fence value to mark commands up to this fence point.
     mCurrFrameResource->Fence = ++mCurrentFence;
 
-    // Add an instruction to the command queue to set a new fence point. 
-    // Because we are on the GPU timeline, the new fence point won't be 
+    // Add an instruction to the command queue to set a new fence point.
+    // Because we are on the GPU timeline, the new fence point won't be
     // set until the GPU finishes processing all the commands prior to this Signal().
     mCommandQueue->Signal(mFence.Get(), mCurrentFence);
 }
@@ -538,7 +538,7 @@ void SkinnedMeshApp::OnMouseMove(WPARAM btnState, int x, int y)
     mLastMousePos.x = x;
     mLastMousePos.y = y;
 }
- 
+
 void SkinnedMeshApp::OnKeyboardInput(const GameTimer& gt)
 {
 	const float dt = gt.DeltaTime();
@@ -557,10 +557,10 @@ void SkinnedMeshApp::OnKeyboardInput(const GameTimer& gt)
 
 	mCamera.UpdateViewMatrix();
 }
- 
+
 void SkinnedMeshApp::AnimateMaterials(const GameTimer& gt)
 {
-	
+
 }
 
 void SkinnedMeshApp::UpdateObjectCBs(const GameTimer& gt)
@@ -568,7 +568,7 @@ void SkinnedMeshApp::UpdateObjectCBs(const GameTimer& gt)
 	auto currObjectCB = mCurrFrameResource->ObjectCB.get();
 	for(auto& e : mAllRitems)
 	{
-		// Only update the cbuffer data if the constants have changed.  
+		// Only update the cbuffer data if the constants have changed.
 		// This needs to be tracked per frame resource.
 		if(e->NumFramesDirty > 0)
 		{
@@ -591,10 +591,10 @@ void SkinnedMeshApp::UpdateObjectCBs(const GameTimer& gt)
 void SkinnedMeshApp::UpdateSkinnedCBs(const GameTimer& gt)
 {
     auto currSkinnedCB = mCurrFrameResource->SkinnedCB.get();
-   
+
     // We only have one skinned model being animated.
     mSkinnedModelInst->UpdateSkinnedAnimation(gt.DeltaTime());
-        
+
     SkinnedConstants skinnedConstants;
     std::copy(
         std::begin(mSkinnedModelInst->FinalTransforms),
@@ -603,7 +603,7 @@ void SkinnedMeshApp::UpdateSkinnedCBs(const GameTimer& gt)
 
     currSkinnedCB->CopyData(0, skinnedConstants);
 }
- 
+
 void SkinnedMeshApp::UpdateMaterialBuffer(const GameTimer& gt)
 {
 	auto currMaterialBuffer = mCurrFrameResource->MaterialBuffer.get();
@@ -714,7 +714,7 @@ void SkinnedMeshApp::UpdateMainPassCB(const GameTimer& gt)
 	mMainPassCB.Lights[1].Strength = { 0.4f, 0.4f, 0.4f };
 	mMainPassCB.Lights[2].Direction = mRotatedLightDirections[2];
 	mMainPassCB.Lights[2].Strength = { 0.2f, 0.2f, 0.2f };
- 
+
 	auto currPassCB = mCurrFrameResource->PassCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
 }
@@ -786,7 +786,7 @@ void SkinnedMeshApp::UpdateSsaoCB(const GameTimer& gt)
 
 void SkinnedMeshApp::LoadTextures()
 {
-	std::vector<std::string> texNames = 
+	std::vector<std::string> texNames =
 	{
 		"bricksDiffuseMap",
 		"bricksNormalMap",
@@ -796,8 +796,8 @@ void SkinnedMeshApp::LoadTextures()
 		"defaultNormalMap",
 		"skyCubeMap"
 	};
-	
-	std::vector<std::wstring> texFilenames = 
+
+	std::vector<std::wstring> texFilenames =
 	{
 		L"../../Textures/bricks2.dds",
 		L"../../Textures/bricks2_nmap.dds",
@@ -829,7 +829,7 @@ void SkinnedMeshApp::LoadTextures()
         texNames.push_back(normalName);
         texFilenames.push_back(normalFilename);
     }
-	
+
 	for(int i = 0; i < (int)texNames.size(); ++i)
 	{
         // Don't create duplicates.
@@ -844,7 +844,7 @@ void SkinnedMeshApp::LoadTextures()
 
             mTextures[texMap->Name] = std::move(texMap);
         }
-	}		
+	}
 }
 
 void SkinnedMeshApp::BuildRootSignature()
@@ -932,7 +932,7 @@ void SkinnedMeshApp::BuildSsaoRootSignature()
         0.0f,
         0,
         D3D12_COMPARISON_FUNC_LESS_EQUAL,
-        D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE); 
+        D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE);
 
     const CD3DX12_STATIC_SAMPLER_DESC linearWrap(
         3, // shaderRegister
@@ -986,7 +986,7 @@ void SkinnedMeshApp::BuildDescriptorHeaps()
 	//
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(mSrvDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
 
-	std::vector<ComPtr<ID3D12Resource>> tex2DList = 
+	std::vector<ComPtr<ID3D12Resource>> tex2DList =
 	{
 		mTextures["bricksDiffuseMap"]->Resource,
 		mTextures["bricksNormalMap"]->Resource,
@@ -1004,7 +1004,7 @@ void SkinnedMeshApp::BuildDescriptorHeaps()
         assert(texResource != nullptr);
         tex2DList.push_back(texResource);
     }
-	
+
 
 	auto skyCubeMap = mTextures["skyCubeMap"]->Resource;
 
@@ -1013,7 +1013,7 @@ void SkinnedMeshApp::BuildDescriptorHeaps()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
-	
+
 	for(UINT i = 0; i < (UINT)tex2DList.size(); ++i)
 	{
 		srvDesc.Format = tex2DList[i]->GetDesc().Format;
@@ -1023,14 +1023,14 @@ void SkinnedMeshApp::BuildDescriptorHeaps()
 		// next descriptor
 		hDescriptor.Offset(1, mCbvSrvUavDescriptorSize);
 	}
-	
+
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
 	srvDesc.TextureCube.MostDetailedMip = 0;
 	srvDesc.TextureCube.MipLevels = skyCubeMap->GetDesc().MipLevels;
 	srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
 	srvDesc.Format = skyCubeMap->GetDesc().Format;
 	md3dDevice->CreateShaderResourceView(skyCubeMap.Get(), &srvDesc, hDescriptor);
-	
+
 	mSkyTexHeapIndex = (UINT)tex2DList.size();
     mShadowMapHeapIndex = mSkyTexHeapIndex + 1;
     mSsaoHeapIndexStart = mShadowMapHeapIndex + 1;
@@ -1091,7 +1091,7 @@ void SkinnedMeshApp::BuildShadersAndInputLayout()
     mShaders["skinnedShadowVS"] = d3dUtil::CompileShader(L"Shaders\\Shadows.hlsl", skinnedDefines, "VS", "vs_5_1");
     mShaders["shadowOpaquePS"] = d3dUtil::CompileShader(L"Shaders\\Shadows.hlsl", nullptr, "PS", "ps_5_1");
     mShaders["shadowAlphaTestedPS"] = d3dUtil::CompileShader(L"Shaders\\Shadows.hlsl", alphaTestDefines, "PS", "ps_5_1");
-	
+
     mShaders["debugVS"] = d3dUtil::CompileShader(L"Shaders\\ShadowDebug.hlsl", nullptr, "VS", "vs_5_1");
     mShaders["debugPS"] = d3dUtil::CompileShader(L"Shaders\\ShadowDebug.hlsl", nullptr, "PS", "ps_5_1");
 
@@ -1135,7 +1135,7 @@ void SkinnedMeshApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
 	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.3f, 3.0f, 20, 20);
     GeometryGenerator::MeshData quad = geoGen.CreateQuad(0.0f, 0.0f, 1.0f, 1.0f, 0.0f);
-    
+
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
 	// define the regions in the buffer each submesh covers.
@@ -1189,7 +1189,7 @@ void SkinnedMeshApp::BuildShapeGeometry()
 		box.Vertices.size() +
 		grid.Vertices.size() +
 		sphere.Vertices.size() +
-		cylinder.Vertices.size() + 
+		cylinder.Vertices.size() +
         quad.Vertices.size();
 
 	std::vector<Vertex> vertices(totalVertexCount);
@@ -1227,7 +1227,7 @@ void SkinnedMeshApp::BuildShapeGeometry()
 		vertices[k].TangentU = cylinder.Vertices[i].TangentU;
 	}
 
-    for(int i = 0; i < quad.Vertices.size(); ++i, ++k)
+    for(int i = 0; i < (int)quad.Vertices.size(); ++i, ++k)
     {
         vertices[k].Pos = quad.Vertices[i].Position;
         vertices[k].Normal = quad.Vertices[i].Normal;
@@ -1277,10 +1277,10 @@ void SkinnedMeshApp::BuildShapeGeometry()
 void SkinnedMeshApp::LoadSkinnedModel()
 {
 	std::vector<M3DLoader::SkinnedVertex> vertices;
-	std::vector<std::uint16_t> indices;	
- 
+	std::vector<std::uint16_t> indices;
+
 	M3DLoader m3dLoader;
-	m3dLoader.LoadM3d(mSkinnedModelFilename, vertices, indices, 
+	m3dLoader.LoadM3d(mSkinnedModelFilename, vertices, indices,
         mSkinnedSubsets, mSkinnedMats, mSkinnedInfo);
 
     mSkinnedModelInst = std::make_unique<SkinnedModelInstance>();
@@ -1288,7 +1288,7 @@ void SkinnedMeshApp::LoadSkinnedModel()
     mSkinnedModelInst->FinalTransforms.resize(mSkinnedInfo.BoneCount());
     mSkinnedModelInst->ClipName = "Take1";
     mSkinnedModelInst->TimePos = 0.0f;
- 
+
 	const UINT vbByteSize = (UINT)vertices.size() * sizeof(SkinnedVertex);
     const UINT ibByteSize = (UINT)indices.size()  * sizeof(std::uint16_t);
 
@@ -1316,7 +1316,7 @@ void SkinnedMeshApp::LoadSkinnedModel()
 	{
 		SubmeshGeometry submesh;
 		std::string name = "sm_" + std::to_string(i);
-		
+
         submesh.IndexCount = (UINT)mSkinnedSubsets[i].FaceCount * 3;
         submesh.StartIndexLocation = mSkinnedSubsets[i].FaceStart * 3;
         submesh.BaseVertexLocation = 0;
@@ -1337,13 +1337,13 @@ void SkinnedMeshApp::BuildPSOs()
     ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
 	opaquePsoDesc.InputLayout = { mInputLayout.data(), (UINT)mInputLayout.size() };
 	opaquePsoDesc.pRootSignature = mRootSignature.Get();
-	opaquePsoDesc.VS = 
-	{ 
-		reinterpret_cast<BYTE*>(mShaders["standardVS"]->GetBufferPointer()), 
+	opaquePsoDesc.VS =
+	{
+		reinterpret_cast<BYTE*>(mShaders["standardVS"]->GetBufferPointer()),
 		mShaders["standardVS"]->GetBufferSize()
 	};
-	opaquePsoDesc.PS = 
-	{ 
+	opaquePsoDesc.PS =
+	{
 		reinterpret_cast<BYTE*>(mShaders["opaquePS"]->GetBufferPointer()),
 		mShaders["opaquePS"]->GetBufferSize()
 	};
@@ -1394,7 +1394,7 @@ void SkinnedMeshApp::BuildPSOs()
         reinterpret_cast<BYTE*>(mShaders["shadowOpaquePS"]->GetBufferPointer()),
         mShaders["shadowOpaquePS"]->GetBufferSize()
     };
-    
+
     // Shadow map pass does not have a render target.
     smapPsoDesc.RTVFormats[0] = DXGI_FORMAT_UNKNOWN;
     smapPsoDesc.NumRenderTargets = 0;
@@ -1515,8 +1515,8 @@ void SkinnedMeshApp::BuildPSOs()
 	// The camera is inside the sky sphere, so just turn off culling.
 	skyPsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 
-	// Make sure the depth function is LESS_EQUAL and not just LESS.  
-	// Otherwise, the normalized depth values at z = 1 (NDC) will 
+	// Make sure the depth function is LESS_EQUAL and not just LESS.
+	// Otherwise, the normalized depth values at z = 1 (NDC) will
 	// fail the depth test if the depth buffer was cleared to 1.
 	skyPsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 	skyPsoDesc.pRootSignature = mRootSignature.Get();
@@ -1539,7 +1539,7 @@ void SkinnedMeshApp::BuildFrameResources()
     for(int i = 0; i < gNumFrameResources; ++i)
     {
         mFrameResources.push_back(std::make_unique<FrameResource>(md3dDevice.Get(),
-            2, (UINT)mAllRitems.size(), 
+            2, (UINT)mAllRitems.size(),
             1,
             (UINT)mMaterials.size()));
     }
@@ -1555,7 +1555,7 @@ void SkinnedMeshApp::BuildMaterials()
 	bricks0->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
     bricks0->FresnelR0 = XMFLOAT3(0.1f, 0.1f, 0.1f);
     bricks0->Roughness = 0.3f;
- 
+
 	auto tile0 = std::make_unique<Material>();
 	tile0->Name = "tile0";
 	tile0->MatCBIndex = 1;
@@ -1620,7 +1620,7 @@ void SkinnedMeshApp::BuildRenderItems()
 
 	mRitemLayer[(int)RenderLayer::Sky].push_back(skyRitem.get());
 	mAllRitems.push_back(std::move(skyRitem));
-    
+
     auto quadRitem = std::make_unique<RenderItem>();
     quadRitem->World = MathHelper::Identity4x4();
     quadRitem->TexTransform = MathHelper::Identity4x4();
@@ -1634,7 +1634,7 @@ void SkinnedMeshApp::BuildRenderItems()
 
     mRitemLayer[(int)RenderLayer::Debug].push_back(quadRitem.get());
     mAllRitems.push_back(std::move(quadRitem));
-    
+
 	auto boxRitem = std::make_unique<RenderItem>();
 	XMStoreFloat4x4(&boxRitem->World, XMMatrixScaling(2.0f, 1.0f, 2.0f)*XMMatrixTranslation(0.0f, 0.5f, 0.0f));
 	XMStoreFloat4x4(&boxRitem->TexTransform, XMMatrixScaling(1.0f, 1.0f, 1.0f));
@@ -1805,7 +1805,7 @@ void SkinnedMeshApp::DrawSceneToShadowMap()
         D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 
     // Clear the back buffer and depth buffer.
-    mCommandList->ClearDepthStencilView(mShadowMap->Dsv(), 
+    mCommandList->ClearDepthStencilView(mShadowMap->Dsv(),
         D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
     // Specify the buffers we are going to render to.
@@ -1827,7 +1827,7 @@ void SkinnedMeshApp::DrawSceneToShadowMap()
     mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mShadowMap->Resource(),
         D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
 }
- 
+
 void SkinnedMeshApp::DrawNormalsAndDepth()
 {
 	mCommandList->RSSetViewports(1, &mScreenViewport);
@@ -1835,7 +1835,7 @@ void SkinnedMeshApp::DrawNormalsAndDepth()
 
 	auto normalMap = mSsao->NormalMap();
 	auto normalMapRtv = mSsao->NormalMapRtv();
-	
+
     // Change to RENDER_TARGET.
     mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(normalMap,
         D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_RENDER_TARGET));
@@ -1893,7 +1893,7 @@ CD3DX12_CPU_DESCRIPTOR_HANDLE SkinnedMeshApp::GetRtv(int index)const
 std::array<const CD3DX12_STATIC_SAMPLER_DESC, 7> SkinnedMeshApp::GetStaticSamplers()
 {
 	// Applications usually only need a handful of samplers.  So just define them all up front
-	// and keep them available as part of the root signature.  
+	// and keep them available as part of the root signature.
 
 	const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
 		0, // shaderRegister
@@ -1952,11 +1952,11 @@ std::array<const CD3DX12_STATIC_SAMPLER_DESC, 7> SkinnedMeshApp::GetStaticSample
         D3D12_COMPARISON_FUNC_LESS_EQUAL,
         D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK);
 
-	return { 
+	return {
 		pointWrap, pointClamp,
-		linearWrap, linearClamp, 
+		linearWrap, linearClamp,
 		anisotropicWrap, anisotropicClamp,
-        shadow 
+        shadow
     };
 }
 

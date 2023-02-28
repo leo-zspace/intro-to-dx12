@@ -22,7 +22,7 @@ struct RenderItem
 {
 	RenderItem() = default;
     RenderItem(const RenderItem& rhs) = delete;
- 
+
     // World matrix of the shape that describes the object's local space
     // relative to the world space, which defines the position, orientation,
     // and scale of the object in the world.
@@ -32,7 +32,7 @@ struct RenderItem
 
 	// Dirty flag indicating the object data has changed and we need to update the constant buffer.
 	// Because we have an object cbuffer for each FrameResource, we have to apply the
-	// update to each FrameResource.  Thus, when we modify obect data we should set 
+	// update to each FrameResource.  Thus, when we modify obect data we should set
 	// NumFramesDirty = gNumFrameResources so that each frame resource gets the update.
 	int NumFramesDirty = gNumFrameResources;
 
@@ -119,7 +119,7 @@ private:
 	std::unordered_map<std::string, ComPtr<ID3D12PipelineState>> mPSOs;
 
     std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout;
- 
+
 	// List of all the render items.
 	std::vector<std::unique_ptr<RenderItem>> mAllRitems;
 
@@ -210,7 +210,7 @@ bool ShadowMapApp::Initialize()
     ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), nullptr));
 
 	mCamera.SetPosition(0.0f, 2.0f, -15.0f);
- 
+
     mShadowMap = std::make_unique<ShadowMap>(
         md3dDevice.Get(), 2048, 2048);
 
@@ -256,7 +256,7 @@ void ShadowMapApp::CreateRtvAndDsvDescriptorHeaps()
     ThrowIfFailed(md3dDevice->CreateDescriptorHeap(
         &dsvHeapDesc, IID_PPV_ARGS(mDsvHeap.GetAddressOf())));
 }
- 
+
 void ShadowMapApp::OnResize()
 {
     D3DApp::OnResize();
@@ -321,16 +321,16 @@ void ShadowMapApp::Draw(const GameTimer& gt)
 
     mCommandList->SetGraphicsRootSignature(mRootSignature.Get());
 
-    // Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and 
+    // Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and
     // set as a root descriptor.
     auto matBuffer = mCurrFrameResource->MaterialBuffer->Resource();
     mCommandList->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
 
     // Bind null SRV for shadow map pass.
-    mCommandList->SetGraphicsRootDescriptorTable(3, mNullSrv);	 
+    mCommandList->SetGraphicsRootDescriptorTable(3, mNullSrv);
 
     // Bind all the textures used in this scene.  Observe
-    // that we only have to specify the first descriptor in the table.  
+    // that we only have to specify the first descriptor in the table.
     // The root signature knows how many descriptors are expected in the table.
     mCommandList->SetGraphicsRootDescriptorTable(4, mSrvDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
 
@@ -354,7 +354,7 @@ void ShadowMapApp::Draw(const GameTimer& gt)
 	mCommandList->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
 
     // Bind the sky cube map.  For our demos, we just use one "world" cube map representing the environment
-    // from far away, so all objects will use the same cube map and we only need to set it once per-frame.  
+    // from far away, so all objects will use the same cube map and we only need to set it once per-frame.
     // If we wanted to use "local" cube maps, we would have to change them per-object, or dynamically
     // index into an array of cube maps.
 
@@ -389,8 +389,8 @@ void ShadowMapApp::Draw(const GameTimer& gt)
     // Advance the fence value to mark commands up to this fence point.
     mCurrFrameResource->Fence = ++mCurrentFence;
 
-    // Add an instruction to the command queue to set a new fence point. 
-    // Because we are on the GPU timeline, the new fence point won't be 
+    // Add an instruction to the command queue to set a new fence point.
+    // Because we are on the GPU timeline, the new fence point won't be
     // set until the GPU finishes processing all the commands prior to this Signal().
     mCommandQueue->Signal(mFence.Get(), mCurrentFence);
 }
@@ -423,7 +423,7 @@ void ShadowMapApp::OnMouseMove(WPARAM btnState, int x, int y)
     mLastMousePos.x = x;
     mLastMousePos.y = y;
 }
- 
+
 void ShadowMapApp::OnKeyboardInput(const GameTimer& gt)
 {
 	const float dt = gt.DeltaTime();
@@ -442,10 +442,10 @@ void ShadowMapApp::OnKeyboardInput(const GameTimer& gt)
 
 	mCamera.UpdateViewMatrix();
 }
- 
+
 void ShadowMapApp::AnimateMaterials(const GameTimer& gt)
 {
-	
+
 }
 
 void ShadowMapApp::UpdateObjectCBs(const GameTimer& gt)
@@ -453,7 +453,7 @@ void ShadowMapApp::UpdateObjectCBs(const GameTimer& gt)
 	auto currObjectCB = mCurrFrameResource->ObjectCB.get();
 	for(auto& e : mAllRitems)
 	{
-		// Only update the cbuffer data if the constants have changed.  
+		// Only update the cbuffer data if the constants have changed.
 		// This needs to be tracked per frame resource.
 		if(e->NumFramesDirty > 0)
 		{
@@ -574,7 +574,7 @@ void ShadowMapApp::UpdateMainPassCB(const GameTimer& gt)
 	mMainPassCB.Lights[1].Strength = { 0.4f, 0.4f, 0.4f };
 	mMainPassCB.Lights[2].Direction = mRotatedLightDirections[2];
 	mMainPassCB.Lights[2].Strength = { 0.2f, 0.2f, 0.2f };
- 
+
 	auto currPassCB = mCurrFrameResource->PassCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
 }
@@ -610,7 +610,7 @@ void ShadowMapApp::UpdateShadowPassCB(const GameTimer& gt)
 
 void ShadowMapApp::LoadTextures()
 {
-	std::vector<std::string> texNames = 
+	std::vector<std::string> texNames =
 	{
 		"bricksDiffuseMap",
 		"bricksNormalMap",
@@ -620,7 +620,7 @@ void ShadowMapApp::LoadTextures()
 		"defaultNormalMap",
 		"skyCubeMap"
 	};
-	
+
     std::vector<std::wstring> texFilenames =
     {
         L"../../Textures/bricks2.dds",
@@ -631,7 +631,7 @@ void ShadowMapApp::LoadTextures()
         L"../../Textures/default_nmap.dds",
         L"../../Textures/desertcube1024.dds"
     };
-	
+
 	for(int i = 0; i < (int)texNames.size(); ++i)
 	{
 		auto texMap = std::make_unique<Texture>();
@@ -640,9 +640,9 @@ void ShadowMapApp::LoadTextures()
 		ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(md3dDevice.Get(),
 			mCommandList.Get(), texMap->Filename.c_str(),
 			texMap->Resource, texMap->UploadHeap));
-			
+
 		mTextures[texMap->Name] = std::move(texMap);
-	}		
+	}
 }
 
 void ShadowMapApp::BuildRootSignature()
@@ -706,7 +706,7 @@ void ShadowMapApp::BuildDescriptorHeaps()
 	//
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(mSrvDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
 
-	std::vector<ComPtr<ID3D12Resource>> tex2DList = 
+	std::vector<ComPtr<ID3D12Resource>> tex2DList =
 	{
 		mTextures["bricksDiffuseMap"]->Resource,
 		mTextures["bricksNormalMap"]->Resource,
@@ -715,7 +715,7 @@ void ShadowMapApp::BuildDescriptorHeaps()
 		mTextures["defaultDiffuseMap"]->Resource,
 		mTextures["defaultNormalMap"]->Resource
 	};
-	
+
 	auto skyCubeMap = mTextures["skyCubeMap"]->Resource;
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -723,7 +723,7 @@ void ShadowMapApp::BuildDescriptorHeaps()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
-	
+
 	for(UINT i = 0; i < (UINT)tex2DList.size(); ++i)
 	{
 		srvDesc.Format = tex2DList[i]->GetDesc().Format;
@@ -733,14 +733,14 @@ void ShadowMapApp::BuildDescriptorHeaps()
 		// next descriptor
 		hDescriptor.Offset(1, mCbvSrvUavDescriptorSize);
 	}
-	
+
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
 	srvDesc.TextureCube.MostDetailedMip = 0;
 	srvDesc.TextureCube.MipLevels = skyCubeMap->GetDesc().MipLevels;
 	srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
 	srvDesc.Format = skyCubeMap->GetDesc().Format;
 	md3dDevice->CreateShaderResourceView(skyCubeMap.Get(), &srvDesc, hDescriptor);
-	
+
 	mSkyTexHeapIndex = (UINT)tex2DList.size();
     mShadowMapHeapIndex = mSkyTexHeapIndex + 1;
 
@@ -764,7 +764,7 @@ void ShadowMapApp::BuildDescriptorHeaps()
     srvDesc.Texture2D.MipLevels = 1;
     srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
     md3dDevice->CreateShaderResourceView(nullptr, &srvDesc, nullSrv);
-    
+
     mShadowMap->BuildDescriptors(
         CD3DX12_CPU_DESCRIPTOR_HANDLE(srvCpuStart, mShadowMapHeapIndex, mCbvSrvUavDescriptorSize),
         CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuStart, mShadowMapHeapIndex, mCbvSrvUavDescriptorSize),
@@ -785,7 +785,7 @@ void ShadowMapApp::BuildShadersAndInputLayout()
     mShaders["shadowVS"] = d3dUtil::CompileShader(L"Shaders\\Shadows.hlsl", nullptr, "VS", "vs_5_1");
     mShaders["shadowOpaquePS"] = d3dUtil::CompileShader(L"Shaders\\Shadows.hlsl", nullptr, "PS", "ps_5_1");
     mShaders["shadowAlphaTestedPS"] = d3dUtil::CompileShader(L"Shaders\\Shadows.hlsl", alphaTestDefines, "PS", "ps_5_1");
-	
+
     mShaders["debugVS"] = d3dUtil::CompileShader(L"Shaders\\ShadowDebug.hlsl", nullptr, "VS", "vs_5_1");
     mShaders["debugPS"] = d3dUtil::CompileShader(L"Shaders\\ShadowDebug.hlsl", nullptr, "PS", "ps_5_1");
 
@@ -809,7 +809,7 @@ void ShadowMapApp::BuildShapeGeometry()
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
 	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.3f, 3.0f, 20, 20);
     GeometryGenerator::MeshData quad = geoGen.CreateQuad(0.0f, 0.0f, 1.0f, 1.0f, 0.0f);
-    
+
 	//
 	// We are concatenating all the geometry into one big vertex/index buffer.  So
 	// define the regions in the buffer each submesh covers.
@@ -863,7 +863,7 @@ void ShadowMapApp::BuildShapeGeometry()
 		box.Vertices.size() +
 		grid.Vertices.size() +
 		sphere.Vertices.size() +
-		cylinder.Vertices.size() + 
+		cylinder.Vertices.size() +
         quad.Vertices.size();
 
 	std::vector<Vertex> vertices(totalVertexCount);
@@ -901,7 +901,7 @@ void ShadowMapApp::BuildShapeGeometry()
 		vertices[k].TangentU = cylinder.Vertices[i].TangentU;
 	}
 
-    for(int i = 0; i < quad.Vertices.size(); ++i, ++k)
+    for(int i = 0; i < (int)quad.Vertices.size(); ++i, ++k)
     {
         vertices[k].Pos = quad.Vertices[i].Position;
         vertices[k].Normal = quad.Vertices[i].Normal;
@@ -999,7 +999,7 @@ void ShadowMapApp::BuildSkullGeometry()
             XMVECTOR T = XMVector3Normalize(XMVector3Cross(N, up));
             XMStoreFloat3(&vertices[i].TangentU, T);
         }
-        
+
 
         vMin = XMVectorMin(vMin, P);
         vMax = XMVectorMax(vMax, P);
@@ -1070,13 +1070,13 @@ void ShadowMapApp::BuildPSOs()
     ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
 	opaquePsoDesc.InputLayout = { mInputLayout.data(), (UINT)mInputLayout.size() };
 	opaquePsoDesc.pRootSignature = mRootSignature.Get();
-	opaquePsoDesc.VS = 
-	{ 
-		reinterpret_cast<BYTE*>(mShaders["standardVS"]->GetBufferPointer()), 
+	opaquePsoDesc.VS =
+	{
+		reinterpret_cast<BYTE*>(mShaders["standardVS"]->GetBufferPointer()),
 		mShaders["standardVS"]->GetBufferSize()
 	};
-	opaquePsoDesc.PS = 
-	{ 
+	opaquePsoDesc.PS =
+	{
 		reinterpret_cast<BYTE*>(mShaders["opaquePS"]->GetBufferPointer()),
 		mShaders["opaquePS"]->GetBufferSize()
 	};
@@ -1110,7 +1110,7 @@ void ShadowMapApp::BuildPSOs()
         reinterpret_cast<BYTE*>(mShaders["shadowOpaquePS"]->GetBufferPointer()),
         mShaders["shadowOpaquePS"]->GetBufferSize()
     };
-    
+
     // Shadow map pass does not have a render target.
     smapPsoDesc.RTVFormats[0] = DXGI_FORMAT_UNKNOWN;
     smapPsoDesc.NumRenderTargets = 0;
@@ -1141,8 +1141,8 @@ void ShadowMapApp::BuildPSOs()
 	// The camera is inside the sky sphere, so just turn off culling.
 	skyPsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 
-	// Make sure the depth function is LESS_EQUAL and not just LESS.  
-	// Otherwise, the normalized depth values at z = 1 (NDC) will 
+	// Make sure the depth function is LESS_EQUAL and not just LESS.
+	// Otherwise, the normalized depth values at z = 1 (NDC) will
 	// fail the depth test if the depth buffer was cleared to 1.
 	skyPsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 	skyPsoDesc.pRootSignature = mRootSignature.Get();
@@ -1238,7 +1238,7 @@ void ShadowMapApp::BuildRenderItems()
 
 	mRitemLayer[(int)RenderLayer::Sky].push_back(skyRitem.get());
 	mAllRitems.push_back(std::move(skyRitem));
-    
+
     auto quadRitem = std::make_unique<RenderItem>();
     quadRitem->World = MathHelper::Identity4x4();
     quadRitem->TexTransform = MathHelper::Identity4x4();
@@ -1252,7 +1252,7 @@ void ShadowMapApp::BuildRenderItems()
 
     mRitemLayer[(int)RenderLayer::Debug].push_back(quadRitem.get());
     mAllRitems.push_back(std::move(quadRitem));
-    
+
 	auto boxRitem = std::make_unique<RenderItem>();
 	XMStoreFloat4x4(&boxRitem->World, XMMatrixScaling(2.0f, 1.0f, 2.0f)*XMMatrixTranslation(0.0f, 0.5f, 0.0f));
 	XMStoreFloat4x4(&boxRitem->TexTransform, XMMatrixScaling(1.0f, 0.5f, 1.0f));
@@ -1365,7 +1365,7 @@ void ShadowMapApp::BuildRenderItems()
 void ShadowMapApp::DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<RenderItem*>& ritems)
 {
     UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
- 
+
 	auto objectCB = mCurrFrameResource->ObjectCB->Resource();
 
     // For each render item...
@@ -1397,7 +1397,7 @@ void ShadowMapApp::DrawSceneToShadowMap()
     UINT passCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(PassConstants));
 
     // Clear the back buffer and depth buffer.
-    mCommandList->ClearDepthStencilView(mShadowMap->Dsv(), 
+    mCommandList->ClearDepthStencilView(mShadowMap->Dsv(),
         D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
     // Set null render target because we are only going to draw to
@@ -1422,7 +1422,7 @@ void ShadowMapApp::DrawSceneToShadowMap()
 std::array<const CD3DX12_STATIC_SAMPLER_DESC, 7> ShadowMapApp::GetStaticSamplers()
 {
 	// Applications usually only need a handful of samplers.  So just define them all up front
-	// and keep them available as part of the root signature.  
+	// and keep them available as part of the root signature.
 
 	const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
 		0, // shaderRegister
@@ -1481,11 +1481,11 @@ std::array<const CD3DX12_STATIC_SAMPLER_DESC, 7> ShadowMapApp::GetStaticSamplers
         D3D12_COMPARISON_FUNC_LESS_EQUAL,
         D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK);
 
-	return { 
+	return {
 		pointWrap, pointClamp,
-		linearWrap, linearClamp, 
+		linearWrap, linearClamp,
 		anisotropicWrap, anisotropicClamp,
-        shadow 
+        shadow
     };
 }
 

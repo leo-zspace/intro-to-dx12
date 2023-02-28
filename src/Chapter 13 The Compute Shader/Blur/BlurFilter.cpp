@@ -3,8 +3,8 @@
 //***************************************************************************************
 
 #include "BlurFilter.h"
- 
-BlurFilter::BlurFilter(ID3D12Device* device, 
+
+BlurFilter::BlurFilter(ID3D12Device* device,
 	                   UINT width, UINT height,
                        DXGI_FORMAT format)
 {
@@ -26,7 +26,7 @@ void BlurFilter::BuildDescriptors(CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuDescriptor,
 	                              CD3DX12_GPU_DESCRIPTOR_HANDLE hGpuDescriptor,
 	                              UINT descriptorSize)
 {
-	// Save references to the descriptors. 
+	// Save references to the descriptors.
 	mBlur0CpuSrv = hCpuDescriptor;
 	mBlur0CpuUav = hCpuDescriptor.Offset(1, descriptorSize);
 	mBlur1CpuSrv = hCpuDescriptor.Offset(1, descriptorSize);
@@ -53,12 +53,12 @@ void BlurFilter::OnResize(UINT newWidth, UINT newHeight)
 		BuildDescriptors();
 	}
 }
- 
-void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList, 
+
+void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	                     ID3D12RootSignature* rootSig,
 	                     ID3D12PipelineState* horzBlurPSO,
 	                     ID3D12PipelineState* vertBlurPSO,
-                         ID3D12Resource* input, 
+                         ID3D12Resource* input,
 						 int blurCount)
 {
 	auto weights = CalcGaussWeights(2.5f);
@@ -77,13 +77,13 @@ void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 
 	// Copy the input (back-buffer in this example) to BlurMap0.
 	cmdList->CopyResource(mBlurMap0.Get(), input);
-	
+
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mBlurMap0.Get(),
 		D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ));
 
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mBlurMap1.Get(),
 		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
- 
+
 	for(int i = 0; i < blurCount; ++i)
 	{
 		//
@@ -127,20 +127,20 @@ void BlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
 	}
 }
- 
+
 std::vector<float> BlurFilter::CalcGaussWeights(float sigma)
 {
 	float twoSigma2 = 2.0f*sigma*sigma;
 
 	// Estimate the blur radius based on sigma since sigma controls the "width" of the bell curve.
-	// For example, for sigma = 3, the width of the bell curve is 
+	// For example, for sigma = 3, the width of the bell curve is
 	int blurRadius = (int)ceil(2.0f * sigma);
 
 	assert(blurRadius <= MaxBlurRadius);
 
 	std::vector<float> weights;
 	weights.resize(2 * blurRadius + 1);
-	
+
 	float weightSum = 0.0f;
 
 	for(int i = -blurRadius; i <= blurRadius; ++i)
@@ -153,7 +153,7 @@ std::vector<float> BlurFilter::CalcGaussWeights(float sigma)
 	}
 
 	// Divide by the sum so all the weights add up to 1.0.
-	for(int i = 0; i < weights.size(); ++i)
+	for(int i = 0; i < (int)weights.size(); ++i)
 	{
 		weights[i] /= weightSum;
 	}
@@ -186,9 +186,9 @@ void BlurFilter::BuildDescriptors()
 void BlurFilter::BuildResources()
 {
 	// Note, compressed formats cannot be used for UAV.  We get error like:
-	// ERROR: ID3D11Device::CreateTexture2D: The format (0x4d, BC3_UNORM) 
+	// ERROR: ID3D11Device::CreateTexture2D: The format (0x4d, BC3_UNORM)
 	// cannot be bound as an UnorderedAccessView, or cast to a format that
-	// could be bound as an UnorderedAccessView.  Therefore this format 
+	// could be bound as an UnorderedAccessView.  Therefore this format
 	// does not support D3D11_BIND_UNORDERED_ACCESS.
 
 	D3D12_RESOURCE_DESC texDesc;

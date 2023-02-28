@@ -13,7 +13,7 @@ Keyframe::Keyframe()
 Keyframe::~Keyframe()
 {
 }
- 
+
 float BoneAnimation::GetStartTime()const
 {
 	// Keyframes are sorted by time, so first keyframe gives start time.
@@ -124,10 +124,10 @@ float SkinnedData::GetClipEndTime(const std::string& clipName)const
 
 UINT SkinnedData::BoneCount()const
 {
-	return mBoneHierarchy.size();
+	return (UINT)mBoneHierarchy.size();
 }
 
-void SkinnedData::Set(std::vector<int>& boneHierarchy, 
+void SkinnedData::Set(std::vector<int>& boneHierarchy,
 		              std::vector<XMFLOAT4X4>& boneOffsets,
 		              std::unordered_map<std::string, AnimationClip>& animations)
 {
@@ -135,10 +135,10 @@ void SkinnedData::Set(std::vector<int>& boneHierarchy,
 	mBoneOffsets   = boneOffsets;
 	mAnimations    = animations;
 }
- 
+
 void SkinnedData::GetFinalTransforms(const std::string& clipName, float timePos,  std::vector<XMFLOAT4X4>& finalTransforms)const
 {
-	UINT numBones = mBoneOffsets.size();
+	UINT numBones = (UINT)mBoneOffsets.size();
 
 	std::vector<XMFLOAT4X4> toParentTransforms(numBones);
 
