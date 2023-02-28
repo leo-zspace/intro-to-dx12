@@ -14,11 +14,11 @@
 ///</summary>
 struct Keyframe
 {
-	Keyframe();
-	~Keyframe();
+    Keyframe();
+    ~Keyframe();
 
     float TimePos;
-	DirectX::XMFLOAT3 Translation;
+    DirectX::XMFLOAT3 Translation;
     DirectX::XMFLOAT3 Scale;
     DirectX::XMFLOAT4 RotationQuat;
 };
@@ -32,12 +32,12 @@ struct Keyframe
 ///</summary>
 struct BoneAnimation
 {
-	float GetStartTime()const;
-	float GetEndTime()const;
+    float GetStartTime()const;
+    float GetEndTime()const;
 
     void Interpolate(float t, DirectX::XMFLOAT4X4& M)const;
 
-	std::vector<Keyframe> Keyframes; 	
+    std::vector<Keyframe> Keyframes;     
 
 };
 

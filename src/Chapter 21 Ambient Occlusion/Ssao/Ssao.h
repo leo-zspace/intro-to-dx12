@@ -15,7 +15,7 @@ class Ssao
 {
 public:
 
-	Ssao(ID3D12Device* device, 
+    Ssao(ID3D12Device* device, 
         ID3D12GraphicsCommandList* cmdList, 
         UINT width, UINT height);
     Ssao(const Ssao& rhs) = delete;
@@ -27,25 +27,25 @@ public:
 
     static const int MaxBlurRadius = 5;
 
-	UINT SsaoMapWidth()const;
+    UINT SsaoMapWidth()const;
     UINT SsaoMapHeight()const;
 
     void GetOffsetVectors(DirectX::XMFLOAT4 offsets[14]);
     std::vector<float> CalcGaussWeights(float sigma);
 
 
-	ID3D12Resource* NormalMap();
-	ID3D12Resource* AmbientMap();
-	
+    ID3D12Resource* NormalMap();
+    ID3D12Resource* AmbientMap();
+    
     CD3DX12_CPU_DESCRIPTOR_HANDLE NormalMapRtv()const;
-	CD3DX12_GPU_DESCRIPTOR_HANDLE NormalMapSrv()const;
+    CD3DX12_GPU_DESCRIPTOR_HANDLE NormalMapSrv()const;
     CD3DX12_GPU_DESCRIPTOR_HANDLE AmbientMapSrv()const;
 
-	void BuildDescriptors(
+    void BuildDescriptors(
         ID3D12Resource* depthStencilBuffer,
-		CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv,
-		CD3DX12_GPU_DESCRIPTOR_HANDLE hGpuSrv,
-		CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuRtv,
+        CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv,
+        CD3DX12_GPU_DESCRIPTOR_HANDLE hGpuSrv,
+        CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuRtv,
         UINT cbvSrvUavDescriptorSize,
         UINT rtvDescriptorSize);
 
@@ -53,10 +53,10 @@ public:
 
     void SetPSOs(ID3D12PipelineState* ssaoPso, ID3D12PipelineState* ssaoBlurPso);
 
-	///<summary>
-	/// Call when the backbuffer is resized.  
-	///</summary>
-	void OnResize(UINT newWidth, UINT newHeight);
+    ///<summary>
+    /// Call when the backbuffer is resized.  
+    ///</summary>
+    void OnResize(UINT newWidth, UINT newHeight);
   
     ///<summary>
     /// Changes the render target to the Ambient render target and draws a fullscreen
@@ -64,7 +64,7 @@ public:
     /// main depth buffer binded to the pipeline, but depth buffer read/writes
     /// are disabled, as we do not need the depth buffer computing the Ambient map.
     ///</summary>
-	void ComputeSsao(
+    void ComputeSsao(
         ID3D12GraphicsCommandList* cmdList, 
         FrameResource* currFrame, 
         int blurCount);
@@ -78,24 +78,24 @@ private:
     /// we do not blur across discontinuities--we want edges to remain edges.
     ///</summary>
     void BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, FrameResource* currFrame, int blurCount);
-	void BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, bool horzBlur);
+    void BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, bool horzBlur);
 
     void BuildResources();
     void BuildRandomVectorTexture(ID3D12GraphicsCommandList* cmdList);
  
-	void BuildOffsetVectors();
+    void BuildOffsetVectors();
 
 
 private:
-	ID3D12Device* md3dDevice;
+    ID3D12Device* md3dDevice;
 
     Microsoft::WRL::ComPtr<ID3D12RootSignature> mSsaoRootSig;
     
     ID3D12PipelineState* mSsaoPso = nullptr;
     ID3D12PipelineState* mBlurPso = nullptr;
-	 
+     
     Microsoft::WRL::ComPtr<ID3D12Resource> mRandomVectorMap;
-	Microsoft::WRL::ComPtr<ID3D12Resource> mRandomVectorMapUploadBuffer;
+    Microsoft::WRL::ComPtr<ID3D12Resource> mRandomVectorMapUploadBuffer;
     Microsoft::WRL::ComPtr<ID3D12Resource> mNormalMap;
     Microsoft::WRL::ComPtr<ID3D12Resource> mAmbientMap0;
     Microsoft::WRL::ComPtr<ID3D12Resource> mAmbientMap1;
@@ -119,13 +119,13 @@ private:
     CD3DX12_GPU_DESCRIPTOR_HANDLE mhAmbientMap1GpuSrv;
     CD3DX12_CPU_DESCRIPTOR_HANDLE mhAmbientMap1CpuRtv;
 
-	UINT mRenderTargetWidth;
-	UINT mRenderTargetHeight;
+    UINT mRenderTargetWidth;
+    UINT mRenderTargetHeight;
 
     DirectX::XMFLOAT4 mOffsets[14];
 
-	D3D12_VIEWPORT mViewport;
-	D3D12_RECT mScissorRect;
+    D3D12_VIEWPORT mViewport;
+    D3D12_RECT mScissorRect;
 };
 
 #endif // SSAO_H

@@ -7,7 +7,7 @@
 struct ObjectConstants
 {
     DirectX::XMFLOAT4X4 World = MathHelper::Identity4x4();
-	DirectX::XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
+    DirectX::XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
 };
 
 struct PassConstants
@@ -40,7 +40,7 @@ struct Vertex
 {
     DirectX::XMFLOAT3 Pos;
     DirectX::XMFLOAT3 Normal;
-	DirectX::XMFLOAT2 TexC;
+    DirectX::XMFLOAT2 TexC;
 };
 
 // Stores the resources needed for the CPU to build the command lists

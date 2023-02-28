@@ -6,12 +6,12 @@
 
 struct InstanceData
 {
-	DirectX::XMFLOAT4X4 World = MathHelper::Identity4x4();
-	DirectX::XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
-	UINT MaterialIndex;
-	UINT InstancePad0;
-	UINT InstancePad1;
-	UINT InstancePad2;
+    DirectX::XMFLOAT4X4 World = MathHelper::Identity4x4();
+    DirectX::XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
+    UINT MaterialIndex;
+    UINT InstancePad0;
+    UINT InstancePad1;
+    UINT InstancePad2;
 };
 
 struct PassConstants
@@ -42,24 +42,24 @@ struct PassConstants
 
 struct MaterialData
 {
-	DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
-	DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
-	float Roughness = 64.0f;
+    DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+    DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+    float Roughness = 64.0f;
 
-	// Used in texture mapping.
-	DirectX::XMFLOAT4X4 MatTransform = MathHelper::Identity4x4();
+    // Used in texture mapping.
+    DirectX::XMFLOAT4X4 MatTransform = MathHelper::Identity4x4();
 
-	UINT DiffuseMapIndex = 0;
-	UINT MaterialPad0;
-	UINT MaterialPad1;
-	UINT MaterialPad2;
+    UINT DiffuseMapIndex = 0;
+    UINT MaterialPad0;
+    UINT MaterialPad1;
+    UINT MaterialPad2;
 };
 
 struct Vertex
 {
     DirectX::XMFLOAT3 Pos;
     DirectX::XMFLOAT3 Normal;
-	DirectX::XMFLOAT2 TexC;
+    DirectX::XMFLOAT2 TexC;
 };
 
 // Stores the resources needed for the CPU to build the command lists
@@ -83,14 +83,14 @@ public:
     std::unique_ptr<UploadBuffer<PassConstants>> PassCB = nullptr;
     std::unique_ptr<UploadBuffer<MaterialData>> MaterialBuffer = nullptr;
 
-	// NOTE: In this demo, we instance only one render-item, so we only have one structured buffer to 
-	// store instancing data.  To make this more general (i.e., to support instancing multiple render-items), 
-	// you would need to have a structured buffer for each render-item, and allocate each buffer with enough
-	// room for the maximum number of instances you would ever draw.  
-	// This sounds like a lot, but it is actually no more than the amount of per-object constant data we 
-	// would need if we were not using instancing.  For example, if we were drawing 1000 objects without instancing,
-	// we would create a constant buffer with enough room for a 1000 objects.  With instancing, we would just
-	// create a structured buffer large enough to store the instance data for 1000 instances.  
+    // NOTE: In this demo, we instance only one render-item, so we only have one structured buffer to 
+    // store instancing data.  To make this more general (i.e., to support instancing multiple render-items), 
+    // you would need to have a structured buffer for each render-item, and allocate each buffer with enough
+    // room for the maximum number of instances you would ever draw.  
+    // This sounds like a lot, but it is actually no more than the amount of per-object constant data we 
+    // would need if we were not using instancing.  For example, if we were drawing 1000 objects without instancing,
+    // we would create a constant buffer with enough room for a 1000 objects.  With instancing, we would just
+    // create a structured buffer large enough to store the instance data for 1000 instances.  
     std::unique_ptr<UploadBuffer<InstanceData>> InstanceBuffer = nullptr;
 
     // Fence value to mark commands up to this fence point.  This lets us

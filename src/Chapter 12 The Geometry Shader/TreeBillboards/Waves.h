@@ -20,24 +20,24 @@ public:
     Waves& operator=(const Waves& rhs) = delete;
     ~Waves();
 
-	int RowCount()const;
-	int ColumnCount()const;
-	int VertexCount()const;
-	int TriangleCount()const;
-	float Width()const;
-	float Depth()const;
+    int RowCount()const;
+    int ColumnCount()const;
+    int VertexCount()const;
+    int TriangleCount()const;
+    float Width()const;
+    float Depth()const;
 
-	// Returns the solution at the ith grid point.
+    // Returns the solution at the ith grid point.
     const DirectX::XMFLOAT3& Position(int i)const { return mCurrSolution[i]; }
 
-	// Returns the solution normal at the ith grid point.
+    // Returns the solution normal at the ith grid point.
     const DirectX::XMFLOAT3& Normal(int i)const { return mNormals[i]; }
 
-	// Returns the unit tangent vector at the ith grid point in the local x-axis direction.
+    // Returns the unit tangent vector at the ith grid point in the local x-axis direction.
     const DirectX::XMFLOAT3& TangentX(int i)const { return mTangentX[i]; }
 
-	void Update(float dt);
-	void Disturb(int i, int j, float magnitude);
+    void Update(float dt);
+    void Disturb(int i, int j, float magnitude);
 
 private:
     int mNumRows = 0;

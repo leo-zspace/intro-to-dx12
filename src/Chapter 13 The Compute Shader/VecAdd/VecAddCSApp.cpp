@@ -19,34 +19,34 @@ const int gNumFrameResources = 3;
 
 struct Data
 {
-	XMFLOAT3 v1;
-	XMFLOAT2 v2;
+    XMFLOAT3 v1;
+    XMFLOAT2 v2;
 };
 
 // Lightweight structure stores parameters to draw a shape.  This will
 // vary from app-to-app.
 struct RenderItem
 {
-	RenderItem() = default;
+    RenderItem() = default;
 
     // World matrix of the shape that describes the object's local space
     // relative to the world space, which defines the position, orientation,
     // and scale of the object in the world.
     XMFLOAT4X4 World = MathHelper::Identity4x4();
 
-	XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
+    XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
 
-	// Dirty flag indicating the object data has changed and we need to update the constant buffer.
-	// Because we have an object cbuffer for each FrameResource, we have to apply the
-	// update to each FrameResource.  Thus, when we modify obect data we should set
-	// NumFramesDirty = gNumFrameResources so that each frame resource gets the update.
-	int NumFramesDirty = gNumFrameResources;
+    // Dirty flag indicating the object data has changed and we need to update the constant buffer.
+    // Because we have an object cbuffer for each FrameResource, we have to apply the
+    // update to each FrameResource.  Thus, when we modify obect data we should set
+    // NumFramesDirty = gNumFrameResources so that each frame resource gets the update.
+    int NumFramesDirty = gNumFrameResources;
 
-	// Index into GPU constant buffer corresponding to the ObjectCB for this render item.
-	UINT ObjCBIndex = -1;
+    // Index into GPU constant buffer corresponding to the ObjectCB for this render item.
+    UINT ObjCBIndex = -1;
 
-	Material* Mat = nullptr;
-	MeshGeometry* Geo = nullptr;
+    Material* Mat = nullptr;
+    MeshGeometry* Geo = nullptr;
 
     // Primitive topology.
     D3D12_PRIMITIVE_TOPOLOGY PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -59,10 +59,10 @@ struct RenderItem
 
 enum class RenderLayer : int
 {
-	Opaque = 0,
-	Transparent,
-	AlphaTested,
-	Count
+    Opaque = 0,
+    Transparent,
+    AlphaTested,
+    Count
 };
 
 class VecAddCSApp : public D3DApp
@@ -84,16 +84,16 @@ private:
     virtual void OnMouseUp(WPARAM btnState, int x, int y)override;
     virtual void OnMouseMove(WPARAM btnState, int x, int y)override;
 
-	void DoComputeWork();
+    void DoComputeWork();
 
-	void BuildBuffers();
+    void BuildBuffers();
     void BuildRootSignature();
-	void BuildDescriptorHeaps();
+    void BuildDescriptorHeaps();
     void BuildShadersAndInputLayout();
     void BuildPSOs();
     void BuildFrameResources();
 
-	std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
+    std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 
 private:
 
@@ -105,38 +105,38 @@ private:
 
     ComPtr<ID3D12RootSignature> mRootSignature = nullptr;
 
-	ComPtr<ID3D12DescriptorHeap> mSrvDescriptorHeap = nullptr;
+    ComPtr<ID3D12DescriptorHeap> mSrvDescriptorHeap = nullptr;
 
-	std::unordered_map<std::string, std::unique_ptr<MeshGeometry>> mGeometries;
-	std::unordered_map<std::string, std::unique_ptr<Material>> mMaterials;
-	std::unordered_map<std::string, std::unique_ptr<Texture>> mTextures;
-	std::unordered_map<std::string, ComPtr<ID3DBlob>> mShaders;
-	std::unordered_map<std::string, ComPtr<ID3D12PipelineState>> mPSOs;
+    std::unordered_map<std::string, std::unique_ptr<MeshGeometry>> mGeometries;
+    std::unordered_map<std::string, std::unique_ptr<Material>> mMaterials;
+    std::unordered_map<std::string, std::unique_ptr<Texture>> mTextures;
+    std::unordered_map<std::string, ComPtr<ID3DBlob>> mShaders;
+    std::unordered_map<std::string, ComPtr<ID3D12PipelineState>> mPSOs;
 
     std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout;
 
     RenderItem* mWavesRitem = nullptr;
 
-	// List of all the render items.
-	std::vector<std::unique_ptr<RenderItem>> mAllRitems;
+    // List of all the render items.
+    std::vector<std::unique_ptr<RenderItem>> mAllRitems;
 
-	// Render items divided by PSO.
-	std::vector<RenderItem*> mRitemLayer[(int)RenderLayer::Count];
+    // Render items divided by PSO.
+    std::vector<RenderItem*> mRitemLayer[(int)RenderLayer::Count];
 
-	const int NumDataElements = 32;
+    const int NumDataElements = 32;
 
-	ComPtr<ID3D12Resource> mInputBufferA = nullptr;
-	ComPtr<ID3D12Resource> mInputUploadBufferA = nullptr;
-	ComPtr<ID3D12Resource> mInputBufferB = nullptr;
-	ComPtr<ID3D12Resource> mInputUploadBufferB = nullptr;
-	ComPtr<ID3D12Resource> mOutputBuffer = nullptr;
-	ComPtr<ID3D12Resource> mReadBackBuffer = nullptr;
+    ComPtr<ID3D12Resource> mInputBufferA = nullptr;
+    ComPtr<ID3D12Resource> mInputUploadBufferA = nullptr;
+    ComPtr<ID3D12Resource> mInputBufferB = nullptr;
+    ComPtr<ID3D12Resource> mInputUploadBufferB = nullptr;
+    ComPtr<ID3D12Resource> mOutputBuffer = nullptr;
+    ComPtr<ID3D12Resource> mReadBackBuffer = nullptr;
 
     PassConstants mMainPassCB;
 
-	XMFLOAT3 mEyePos = { 0.0f, 0.0f, 0.0f };
-	XMFLOAT4X4 mView = MathHelper::Identity4x4();
-	XMFLOAT4X4 mProj = MathHelper::Identity4x4();
+    XMFLOAT3 mEyePos = { 0.0f, 0.0f, 0.0f };
+    XMFLOAT4X4 mView = MathHelper::Identity4x4();
+    XMFLOAT4X4 mProj = MathHelper::Identity4x4();
 
     float mTheta = 1.5f*XM_PI;
     float mPhi = XM_PIDIV2 - 0.1f;
@@ -188,12 +188,12 @@ bool VecAddCSApp::Initialize()
     ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), nullptr));
 
     // Get the increment size of a descriptor in this heap type.  This is hardware specific,
-	// so we have to query this information.
+    // so we have to query this information.
     mCbvSrvDescriptorSize = md3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	BuildBuffers();
+    BuildBuffers();
     BuildRootSignature();
-	BuildDescriptorHeaps();
+    BuildDescriptorHeaps();
     BuildShadersAndInputLayout();
     BuildFrameResources();
     BuildPSOs();
@@ -206,7 +206,7 @@ bool VecAddCSApp::Initialize()
     // Wait until initialization is complete.
     FlushCommandQueue();
 
-	DoComputeWork();
+    DoComputeWork();
 
     return true;
 }
@@ -253,8 +253,8 @@ void VecAddCSApp::Draw(const GameTimer& gt)
     mCommandList->RSSetScissorRects(1, &mScissorRect);
 
     // Indicate a state transition on the resource usage.
-//	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
-//		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+//    mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+//        D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
     // Clear the back buffer and depth buffer.
     mCommandList->ClearRenderTargetView(CurrentBackBufferView(), (float*)&mMainPassCB.FogColor, 0, nullptr);
@@ -266,8 +266,8 @@ void VecAddCSApp::Draw(const GameTimer& gt)
 
 
     // Indicate a state transition on the resource usage.
-	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
-		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+    mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+        D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
 
     // Done recording commands.
     ThrowIfFailed(mCommandList->Close());
@@ -278,7 +278,7 @@ void VecAddCSApp::Draw(const GameTimer& gt)
 
     // Swap the back and front buffers
     ThrowIfFailed(mSwapChain->Present(0, 0));
-	mCurrBackBuffer = (mCurrBackBuffer + 1) % SwapChainBufferCount;
+    mCurrBackBuffer = (mCurrBackBuffer + 1) % SwapChainBufferCount;
 
     // Advance the fence value to mark commands up to this fence point.
     mCurrFrameResource->Fence = ++mCurrentFence;
@@ -336,104 +336,104 @@ void VecAddCSApp::OnMouseMove(WPARAM btnState, int x, int y)
 
 void VecAddCSApp::DoComputeWork()
 {
-	// Reuse the memory associated with command recording.
-	// We can only reset when the associated command lists have finished execution on the GPU.
-	ThrowIfFailed(mDirectCmdListAlloc->Reset());
+    // Reuse the memory associated with command recording.
+    // We can only reset when the associated command lists have finished execution on the GPU.
+    ThrowIfFailed(mDirectCmdListAlloc->Reset());
 
-	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
-	// Reusing the command list reuses memory.
-	ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), mPSOs["vecAdd"].Get()));
+    // A command list can be reset after it has been added to the command queue via ExecuteCommandList.
+    // Reusing the command list reuses memory.
+    ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), mPSOs["vecAdd"].Get()));
 
-	mCommandList->SetComputeRootSignature(mRootSignature.Get());
+    mCommandList->SetComputeRootSignature(mRootSignature.Get());
 
-	mCommandList->SetComputeRootShaderResourceView(0, mInputBufferA->GetGPUVirtualAddress());
-	mCommandList->SetComputeRootShaderResourceView(1, mInputBufferB->GetGPUVirtualAddress());
-	mCommandList->SetComputeRootUnorderedAccessView(2, mOutputBuffer->GetGPUVirtualAddress());
+    mCommandList->SetComputeRootShaderResourceView(0, mInputBufferA->GetGPUVirtualAddress());
+    mCommandList->SetComputeRootShaderResourceView(1, mInputBufferB->GetGPUVirtualAddress());
+    mCommandList->SetComputeRootUnorderedAccessView(2, mOutputBuffer->GetGPUVirtualAddress());
 
-	mCommandList->Dispatch(1, 1, 1);
+    mCommandList->Dispatch(1, 1, 1);
 
-	// Schedule to copy the data to the default buffer to the readback buffer.
-	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mOutputBuffer.Get(),
-		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_SOURCE));
+    // Schedule to copy the data to the default buffer to the readback buffer.
+    mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mOutputBuffer.Get(),
+        D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_SOURCE));
 
-	mCommandList->CopyResource(mReadBackBuffer.Get(), mOutputBuffer.Get());
+    mCommandList->CopyResource(mReadBackBuffer.Get(), mOutputBuffer.Get());
 
-	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mOutputBuffer.Get(),
-		D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_COMMON));
+    mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mOutputBuffer.Get(),
+        D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_COMMON));
 
-	// Done recording commands.
-	ThrowIfFailed(mCommandList->Close());
+    // Done recording commands.
+    ThrowIfFailed(mCommandList->Close());
 
-	// Add the command list to the queue for execution.
-	ID3D12CommandList* cmdsLists[] = { mCommandList.Get() };
-	mCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+    // Add the command list to the queue for execution.
+    ID3D12CommandList* cmdsLists[] = { mCommandList.Get() };
+    mCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 
-	// Wait for the work to finish.
-	FlushCommandQueue();
+    // Wait for the work to finish.
+    FlushCommandQueue();
 
-	// Map the data so we can read it on CPU.
-	Data* mappedData = nullptr;
-	ThrowIfFailed(mReadBackBuffer->Map(0, nullptr, reinterpret_cast<void**>(&mappedData)));
+    // Map the data so we can read it on CPU.
+    Data* mappedData = nullptr;
+    ThrowIfFailed(mReadBackBuffer->Map(0, nullptr, reinterpret_cast<void**>(&mappedData)));
 
-	std::ofstream fout("results.txt");
+    std::ofstream fout("results.txt");
 
-	for(int i = 0; i < NumDataElements; ++i)
-	{
-		fout << "(" << mappedData[i].v1.x << ", " << mappedData[i].v1.y << ", " << mappedData[i].v1.z <<
-			", " << mappedData[i].v2.x << ", " << mappedData[i].v2.y << ")" << std::endl;
-	}
+    for(int i = 0; i < NumDataElements; ++i)
+    {
+        fout << "(" << mappedData[i].v1.x << ", " << mappedData[i].v1.y << ", " << mappedData[i].v1.z <<
+            ", " << mappedData[i].v2.x << ", " << mappedData[i].v2.y << ")" << std::endl;
+    }
 
-	mReadBackBuffer->Unmap(0, nullptr);
+    mReadBackBuffer->Unmap(0, nullptr);
 }
 
 void VecAddCSApp::BuildBuffers()
 {
-	// Generate some data.
-	std::vector<Data> dataA(NumDataElements);
-	std::vector<Data> dataB(NumDataElements);
-	for(int i = 0; i < NumDataElements; ++i)
-	{
-		float fi = (float)i;
-		dataA[i].v1 = XMFLOAT3(fi, fi, fi);
-		dataA[i].v2 = XMFLOAT2(fi, 0);
+    // Generate some data.
+    std::vector<Data> dataA(NumDataElements);
+    std::vector<Data> dataB(NumDataElements);
+    for(int i = 0; i < NumDataElements; ++i)
+    {
+        float fi = (float)i;
+        dataA[i].v1 = XMFLOAT3(fi, fi, fi);
+        dataA[i].v2 = XMFLOAT2(fi, 0);
 
-		dataB[i].v1 = XMFLOAT3(-fi, fi, 0.0f);
-		dataB[i].v2 = XMFLOAT2(0, -fi);
-	}
+        dataB[i].v1 = XMFLOAT3(-fi, fi, 0.0f);
+        dataB[i].v2 = XMFLOAT2(0, -fi);
+    }
 
-	UINT64 byteSize = dataA.size()*sizeof(Data);
+    UINT64 byteSize = dataA.size()*sizeof(Data);
 
-	// Create some buffers to be used as SRVs.
-	mInputBufferA = d3dUtil::CreateDefaultBuffer(
-		md3dDevice.Get(),
-		mCommandList.Get(),
-		dataA.data(),
-		byteSize,
-		mInputUploadBufferA);
+    // Create some buffers to be used as SRVs.
+    mInputBufferA = d3dUtil::CreateDefaultBuffer(
+        md3dDevice.Get(),
+        mCommandList.Get(),
+        dataA.data(),
+        byteSize,
+        mInputUploadBufferA);
 
-	mInputBufferB = d3dUtil::CreateDefaultBuffer(
-		md3dDevice.Get(),
-		mCommandList.Get(),
-		dataB.data(),
-		byteSize,
-		mInputUploadBufferB);
+    mInputBufferB = d3dUtil::CreateDefaultBuffer(
+        md3dDevice.Get(),
+        mCommandList.Get(),
+        dataB.data(),
+        byteSize,
+        mInputUploadBufferB);
 
-	// Create the buffer that will be a UAV.
-	ThrowIfFailed(md3dDevice->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
-		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer(byteSize, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
-		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-		nullptr,
-		IID_PPV_ARGS(&mOutputBuffer)));
+    // Create the buffer that will be a UAV.
+    ThrowIfFailed(md3dDevice->CreateCommittedResource(
+        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+        D3D12_HEAP_FLAG_NONE,
+        &CD3DX12_RESOURCE_DESC::Buffer(byteSize, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
+        D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+        nullptr,
+        IID_PPV_ARGS(&mOutputBuffer)));
 
-	ThrowIfFailed(md3dDevice->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_READBACK),
-		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer(byteSize),
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		nullptr,
-		IID_PPV_ARGS(&mReadBackBuffer)));
+    ThrowIfFailed(md3dDevice->CreateCommittedResource(
+        &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_READBACK),
+        D3D12_HEAP_FLAG_NONE,
+        &CD3DX12_RESOURCE_DESC::Buffer(byteSize),
+        D3D12_RESOURCE_STATE_COPY_DEST,
+        nullptr,
+        IID_PPV_ARGS(&mReadBackBuffer)));
 }
 
 void VecAddCSApp::BuildRootSignature()
@@ -441,15 +441,15 @@ void VecAddCSApp::BuildRootSignature()
     // Root parameter can be a table, root descriptor or root constants.
     CD3DX12_ROOT_PARAMETER slotRootParameter[3];
 
-	// Perfomance TIP: Order from most frequent to least frequent.
-	slotRootParameter[0].InitAsShaderResourceView(0);
+    // Perfomance TIP: Order from most frequent to least frequent.
+    slotRootParameter[0].InitAsShaderResourceView(0);
     slotRootParameter[1].InitAsShaderResourceView(1);
     slotRootParameter[2].InitAsUnorderedAccessView(0);
 
     // A root signature is an array of root parameters.
-	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(3, slotRootParameter,
-		0, nullptr,
-		D3D12_ROOT_SIGNATURE_FLAG_NONE);
+    CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(3, slotRootParameter,
+        0, nullptr,
+        D3D12_ROOT_SIGNATURE_FLAG_NONE);
 
     // create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
     ComPtr<ID3DBlob> serializedRootSig = nullptr;
@@ -464,7 +464,7 @@ void VecAddCSApp::BuildRootSignature()
     ThrowIfFailed(hr);
 
     ThrowIfFailed(md3dDevice->CreateRootSignature(
-		0,
+        0,
         serializedRootSig->GetBufferPointer(),
         serializedRootSig->GetBufferSize(),
         IID_PPV_ARGS(mRootSignature.GetAddressOf())));
@@ -477,20 +477,20 @@ void VecAddCSApp::BuildDescriptorHeaps()
 
 void VecAddCSApp::BuildShadersAndInputLayout()
 {
-	mShaders["vecAddCS"] = d3dUtil::CompileShader(L"Shaders\\VecAdd.hlsl", nullptr, "CS", "cs_5_0");
+    mShaders["vecAddCS"] = d3dUtil::CompileShader(L"Shaders\\VecAdd.hlsl", nullptr, "CS", "cs_5_0");
 }
 
 void VecAddCSApp::BuildPSOs()
 {
-	D3D12_COMPUTE_PIPELINE_STATE_DESC computePsoDesc = {};
-	computePsoDesc.pRootSignature = mRootSignature.Get();
-	computePsoDesc.CS =
-	{
-		reinterpret_cast<BYTE*>(mShaders["vecAddCS"]->GetBufferPointer()),
-		mShaders["vecAddCS"]->GetBufferSize()
-	};
-	computePsoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-	ThrowIfFailed(md3dDevice->CreateComputePipelineState(&computePsoDesc, IID_PPV_ARGS(&mPSOs["vecAdd"])));
+    D3D12_COMPUTE_PIPELINE_STATE_DESC computePsoDesc = {};
+    computePsoDesc.pRootSignature = mRootSignature.Get();
+    computePsoDesc.CS =
+    {
+        reinterpret_cast<BYTE*>(mShaders["vecAddCS"]->GetBufferPointer()),
+        mShaders["vecAddCS"]->GetBufferSize()
+    };
+    computePsoDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+    ThrowIfFailed(md3dDevice->CreateComputePipelineState(&computePsoDesc, IID_PPV_ARGS(&mPSOs["vecAdd"])));
 }
 
 void VecAddCSApp::BuildFrameResources()
@@ -504,58 +504,58 @@ void VecAddCSApp::BuildFrameResources()
 
 std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> VecAddCSApp::GetStaticSamplers()
 {
-	// Applications usually only need a handful of samplers.  So just define them all up front
-	// and keep them available as part of the root signature.
+    // Applications usually only need a handful of samplers.  So just define them all up front
+    // and keep them available as part of the root signature.
 
-	const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
-		0, // shaderRegister
-		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+    const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
+        0, // shaderRegister
+        D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
 
-	const CD3DX12_STATIC_SAMPLER_DESC pointClamp(
-		1, // shaderRegister
-		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+    const CD3DX12_STATIC_SAMPLER_DESC pointClamp(
+        1, // shaderRegister
+        D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
 
-	const CD3DX12_STATIC_SAMPLER_DESC linearWrap(
-		2, // shaderRegister
-		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+    const CD3DX12_STATIC_SAMPLER_DESC linearWrap(
+        2, // shaderRegister
+        D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
 
-	const CD3DX12_STATIC_SAMPLER_DESC linearClamp(
-		3, // shaderRegister
-		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+    const CD3DX12_STATIC_SAMPLER_DESC linearClamp(
+        3, // shaderRegister
+        D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
 
-	const CD3DX12_STATIC_SAMPLER_DESC anisotropicWrap(
-		4, // shaderRegister
-		D3D12_FILTER_ANISOTROPIC, // filter
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
-		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressW
-		0.0f,                             // mipLODBias
-		8);                               // maxAnisotropy
+    const CD3DX12_STATIC_SAMPLER_DESC anisotropicWrap(
+        4, // shaderRegister
+        D3D12_FILTER_ANISOTROPIC, // filter
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressW
+        0.0f,                             // mipLODBias
+        8);                               // maxAnisotropy
 
-	const CD3DX12_STATIC_SAMPLER_DESC anisotropicClamp(
-		5, // shaderRegister
-		D3D12_FILTER_ANISOTROPIC, // filter
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressW
-		0.0f,                              // mipLODBias
-		8);                                // maxAnisotropy
+    const CD3DX12_STATIC_SAMPLER_DESC anisotropicClamp(
+        5, // shaderRegister
+        D3D12_FILTER_ANISOTROPIC, // filter
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressW
+        0.0f,                              // mipLODBias
+        8);                                // maxAnisotropy
 
-	return {
-		pointWrap, pointClamp,
-		linearWrap, linearClamp,
-		anisotropicWrap, anisotropicClamp };
+    return {
+        pointWrap, pointClamp,
+        linearWrap, linearClamp,
+        anisotropicWrap, anisotropicClamp };
 }
 
