@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{a34487a4-6d66-44f4-a919-4e2a794efce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c7f3ffb6-f5ed-48fd-97e6-c3d57171f951}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Common\Camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Common\MathHelper.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Common\GeometryGenerator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Common\GameTimer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Common\DDSTextureLoader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Common\d3dApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Common\d3dUtil.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Common\Camera.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\d3dApp.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\d3dUtil.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\d3dx12.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\DDSTextureLoader.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\GameTimer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\GeometryGenerator.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\MathHelper.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common\UploadBuffer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
