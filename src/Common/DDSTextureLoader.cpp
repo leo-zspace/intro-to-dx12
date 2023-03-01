@@ -23,7 +23,7 @@
 #include <memory>
 #include <wrl.h>
 
-#include "DDSTextureLoader.h" 
+#include "DDSTextureLoader.h"
 
 using namespace Microsoft::WRL;
 
@@ -870,7 +870,7 @@ static HRESULT FillInitData( _In_ size_t width,
             {
                 return HRESULT_FROM_WIN32( ERROR_HANDLE_EOF );
             }
-  
+
             pSrcBits += NumBytes * d;
 
             w = w >> 1;
@@ -1020,12 +1020,12 @@ static HRESULT CreateD3DResources( _In_ ID3D11Device* d3dDevice,
         format = MakeSRGB( format );
     }
 
-    switch ( resDim ) 
+    switch ( resDim )
     {
         case D3D11_RESOURCE_DIMENSION_TEXTURE1D:
             {
                 D3D11_TEXTURE1D_DESC desc;
-                desc.Width = static_cast<UINT>( width ); 
+                desc.Width = static_cast<UINT>( width );
                 desc.MipLevels = static_cast<UINT>( mipCount );
                 desc.ArraySize = static_cast<UINT>( arraySize );
                 desc.Format = format;
@@ -1221,7 +1221,7 @@ static HRESULT CreateD3DResources( _In_ ID3D11Device* d3dDevice,
                     }
                 }
             }
-            break; 
+            break;
     }
 
     return hr;
@@ -1376,7 +1376,7 @@ static HRESULT CreateTextureFromDDS( _In_ ID3D11Device* d3dDevice,
                 return HRESULT_FROM_WIN32( ERROR_NOT_SUPPORTED );
             }
         }
-           
+
         format = d3d10ext->dxgiFormat;
 
         switch ( d3d10ext->resourceDimension )
@@ -1430,7 +1430,7 @@ static HRESULT CreateTextureFromDDS( _In_ ID3D11Device* d3dDevice,
         {
             resDim = D3D11_RESOURCE_DIMENSION_TEXTURE3D;
         }
-        else 
+        else
         {
             if (header->caps2 & DDS_CUBEMAP)
             {
@@ -1866,7 +1866,7 @@ static HRESULT CreateTextureFromDDS12(
             false, // forceSRGB
             isCubeMap,
             initData.get(),
-            texture, 
+            texture,
             textureUploadHeap);
     }
 

@@ -26,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "08.LitWaves", "..\src\Chapter 8 Lighting\LitWaves\LitWaves.vcxproj", "{2D456930-7EE8-4CE4-965A-A85A744F8515}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "09.Crate", "..\src\Chapter 9 Texturing\Crate\Crate.vcxproj", "{99BAD649-F897-4374-B69D-EEB3F9CAE027}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "09.TexColumns", "..\src\Chapter 9 Texturing\TexColumns\TexColumns.vcxproj", "{23D47CEE-6F04-46F2-B680-AF36FB5A386A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "09.TexWaves", "..\src\Chapter 9 Texturing\TexWaves\TexWaves.vcxproj", "{0EB5ECAA-3BCB-4B58-9FA9-88176C0E1CFF}"
@@ -69,6 +67,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "22.QuatDemo", "..\src\Chapter 22 Quaternions\QuatDemo\QuatDemo.vcxproj", "{FE0CC4EB-8818-4EF7-922B-B591D2906E0C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "0.common", "common.vcxproj", "{4D8C63BE-9E18-44A7-963D-0AB1CDA729A9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "09.Crate", "..\src\Chapter 9 Texturing\Crate\Crate.vcxproj", "{99BAD649-F897-4374-B69D-EEB3F9CAE027}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,10 +112,6 @@ Global
 		{2D456930-7EE8-4CE4-965A-A85A744F8515}.Debug|x64.Build.0 = Debug|x64
 		{2D456930-7EE8-4CE4-965A-A85A744F8515}.Release|x64.ActiveCfg = Release|x64
 		{2D456930-7EE8-4CE4-965A-A85A744F8515}.Release|x64.Build.0 = Release|x64
-		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Debug|x64.ActiveCfg = Debug|x64
-		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Debug|x64.Build.0 = Debug|x64
-		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Release|x64.ActiveCfg = Release|x64
-		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Release|x64.Build.0 = Release|x64
 		{23D47CEE-6F04-46F2-B680-AF36FB5A386A}.Debug|x64.ActiveCfg = Debug|x64
 		{23D47CEE-6F04-46F2-B680-AF36FB5A386A}.Debug|x64.Build.0 = Debug|x64
 		{23D47CEE-6F04-46F2-B680-AF36FB5A386A}.Release|x64.ActiveCfg = Release|x64
@@ -200,6 +196,10 @@ Global
 		{4D8C63BE-9E18-44A7-963D-0AB1CDA729A9}.Debug|x64.Build.0 = Debug|x64
 		{4D8C63BE-9E18-44A7-963D-0AB1CDA729A9}.Release|x64.ActiveCfg = Release|x64
 		{4D8C63BE-9E18-44A7-963D-0AB1CDA729A9}.Release|x64.Build.0 = Release|x64
+		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Debug|x64.ActiveCfg = Debug|x64
+		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Debug|x64.Build.0 = Debug|x64
+		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Release|x64.ActiveCfg = Release|x64
+		{99BAD649-F897-4374-B69D-EEB3F9CAE027}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,7 +29,7 @@ protected:
 public:
 
     static D3DApp* GetApp();
-    
+
     HINSTANCE AppInst()const;
     HWND      MainWnd()const;
     float     AspectRatio()const;
@@ -38,13 +38,13 @@ public:
     void Set4xMsaaState(bool value);
 
     int Run();
- 
+
     virtual bool Initialize();
     virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 protected:
     virtual void CreateRtvAndDsvDescriptorHeaps();
-    virtual void OnResize(); 
+    virtual void OnResize();
     virtual void Update(const GameTimer& gt)=0;
     virtual void Draw(const GameTimer& gt)=0;
 
@@ -90,14 +90,14 @@ protected:
 
     // Used to keep track of the “delta-time” and game time (§4.4).
     GameTimer mTimer;
-    
+
     Microsoft::WRL::ComPtr<IDXGIFactory4> mdxgiFactory;
     Microsoft::WRL::ComPtr<IDXGISwapChain> mSwapChain;
     Microsoft::WRL::ComPtr<ID3D12Device> md3dDevice;
 
     Microsoft::WRL::ComPtr<ID3D12Fence> mFence;
     UINT64 mCurrentFence = 0;
-    
+
     Microsoft::WRL::ComPtr<ID3D12CommandQueue> mCommandQueue;
     Microsoft::WRL::ComPtr<ID3D12CommandAllocator> mDirectCmdListAlloc;
     Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> mCommandList;
@@ -110,7 +110,7 @@ protected:
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mRtvHeap;
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mDsvHeap;
 
-    D3D12_VIEWPORT mScreenViewport; 
+    D3D12_VIEWPORT mScreenViewport;
     D3D12_RECT mScissorRect;
 
     UINT mRtvDescriptorSize = 0;

@@ -41,7 +41,7 @@ public:
     {
         return a > b ? a : b;
     }
-     
+
     template<typename T>
     static T Lerp(const T& a, const T& b, float t)
     {
@@ -51,7 +51,7 @@ public:
     template<typename T>
     static T Clamp(const T& x, const T& low, const T& high)
     {
-        return x < low ? low : (x > high ? high : x); 
+        return x < low ? low : (x > high ? high : x);
     }
 
     // Returns the polar angle of the point (x,y) in [0, 2*PI).
@@ -68,7 +68,7 @@ public:
 
     static DirectX::XMMATRIX InverseTranspose(DirectX::CXMMATRIX M)
     {
-        // Inverse-transpose is just applied to normals.  So zero out 
+        // Inverse-transpose is just applied to normals.  So zero out
         // translation row so that it doesn't get into our inverse-transpose
         // calculation--we don't want the inverse-transpose of the translation.
         DirectX::XMMATRIX A = M;

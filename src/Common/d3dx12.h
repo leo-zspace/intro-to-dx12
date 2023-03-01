@@ -223,8 +223,8 @@ struct CD3DX12_RASTERIZER_DESC : public D3D12_RASTERIZER_DESC
         FLOAT slopeScaledDepthBias,
         BOOL depthClipEnable,
         BOOL multisampleEnable,
-        BOOL antialiasedLineEnable, 
-        UINT forcedSampleCount, 
+        BOOL antialiasedLineEnable,
+        UINT forcedSampleCount,
         D3D12_CONSERVATIVE_RASTERIZATION_MODE conservativeRaster)
     {
         FillMode = fillMode;
@@ -269,10 +269,10 @@ struct CD3DX12_HEAP_PROPERTIES : public D3D12_HEAP_PROPERTIES
     explicit CD3DX12_HEAP_PROPERTIES(const D3D12_HEAP_PROPERTIES &o) :
         D3D12_HEAP_PROPERTIES(o)
     {}
-    CD3DX12_HEAP_PROPERTIES( 
-        D3D12_CPU_PAGE_PROPERTY cpuPageProperty, 
+    CD3DX12_HEAP_PROPERTIES(
+        D3D12_CPU_PAGE_PROPERTY cpuPageProperty,
         D3D12_MEMORY_POOL memoryPoolPreference,
-        UINT creationNodeMask = 1, 
+        UINT creationNodeMask = 1,
         UINT nodeMask = 1 )
     {
         Type = D3D12_HEAP_TYPE_CUSTOM;
@@ -281,9 +281,9 @@ struct CD3DX12_HEAP_PROPERTIES : public D3D12_HEAP_PROPERTIES
         CreationNodeMask = creationNodeMask;
         VisibleNodeMask = nodeMask;
     }
-    explicit CD3DX12_HEAP_PROPERTIES( 
-        D3D12_HEAP_TYPE type, 
-        UINT creationNodeMask = 1, 
+    explicit CD3DX12_HEAP_PROPERTIES(
+        D3D12_HEAP_TYPE type,
+        UINT creationNodeMask = 1,
         UINT nodeMask = 1 )
     {
         Type = type;
@@ -301,7 +301,7 @@ struct CD3DX12_HEAP_PROPERTIES : public D3D12_HEAP_PROPERTIES
 };
 inline bool operator==( const D3D12_HEAP_PROPERTIES& l, const D3D12_HEAP_PROPERTIES& r )
 {
-    return l.Type == r.Type && l.CPUPageProperty == r.CPUPageProperty && 
+    return l.Type == r.Type && l.CPUPageProperty == r.CPUPageProperty &&
         l.MemoryPoolPreference == r.MemoryPoolPreference &&
         l.CreationNodeMask == r.CreationNodeMask &&
         l.VisibleNodeMask == r.VisibleNodeMask;
@@ -317,10 +317,10 @@ struct CD3DX12_HEAP_DESC : public D3D12_HEAP_DESC
     explicit CD3DX12_HEAP_DESC(const D3D12_HEAP_DESC &o) :
         D3D12_HEAP_DESC(o)
     {}
-    CD3DX12_HEAP_DESC( 
-        UINT64 size, 
-        D3D12_HEAP_PROPERTIES properties, 
-        UINT64 alignment = 0, 
+    CD3DX12_HEAP_DESC(
+        UINT64 size,
+        D3D12_HEAP_PROPERTIES properties,
+        UINT64 alignment = 0,
         D3D12_HEAP_FLAGS flags = D3D12_HEAP_FLAG_NONE )
     {
         SizeInBytes = size;
@@ -328,10 +328,10 @@ struct CD3DX12_HEAP_DESC : public D3D12_HEAP_DESC
         Alignment = alignment;
         Flags = flags;
     }
-    CD3DX12_HEAP_DESC( 
-        UINT64 size, 
-        D3D12_HEAP_TYPE type, 
-        UINT64 alignment = 0, 
+    CD3DX12_HEAP_DESC(
+        UINT64 size,
+        D3D12_HEAP_TYPE type,
+        UINT64 alignment = 0,
         D3D12_HEAP_FLAGS flags = D3D12_HEAP_FLAG_NONE )
     {
         SizeInBytes = size;
@@ -339,11 +339,11 @@ struct CD3DX12_HEAP_DESC : public D3D12_HEAP_DESC
         Alignment = alignment;
         Flags = flags;
     }
-    CD3DX12_HEAP_DESC( 
-        UINT64 size, 
-        D3D12_CPU_PAGE_PROPERTY cpuPageProperty, 
-        D3D12_MEMORY_POOL memoryPoolPreference, 
-        UINT64 alignment = 0, 
+    CD3DX12_HEAP_DESC(
+        UINT64 size,
+        D3D12_CPU_PAGE_PROPERTY cpuPageProperty,
+        D3D12_MEMORY_POOL memoryPoolPreference,
+        UINT64 alignment = 0,
         D3D12_HEAP_FLAGS flags = D3D12_HEAP_FLAG_NONE )
     {
         SizeInBytes = size;
@@ -351,9 +351,9 @@ struct CD3DX12_HEAP_DESC : public D3D12_HEAP_DESC
         Alignment = alignment;
         Flags = flags;
     }
-    CD3DX12_HEAP_DESC( 
+    CD3DX12_HEAP_DESC(
         const D3D12_RESOURCE_ALLOCATION_INFO& resAllocInfo,
-        D3D12_HEAP_PROPERTIES properties, 
+        D3D12_HEAP_PROPERTIES properties,
         D3D12_HEAP_FLAGS flags = D3D12_HEAP_FLAG_NONE )
     {
         SizeInBytes = resAllocInfo.SizeInBytes;
@@ -361,9 +361,9 @@ struct CD3DX12_HEAP_DESC : public D3D12_HEAP_DESC
         Alignment = resAllocInfo.Alignment;
         Flags = flags;
     }
-    CD3DX12_HEAP_DESC( 
+    CD3DX12_HEAP_DESC(
         const D3D12_RESOURCE_ALLOCATION_INFO& resAllocInfo,
-        D3D12_HEAP_TYPE type, 
+        D3D12_HEAP_TYPE type,
         D3D12_HEAP_FLAGS flags = D3D12_HEAP_FLAG_NONE )
     {
         SizeInBytes = resAllocInfo.SizeInBytes;
@@ -371,10 +371,10 @@ struct CD3DX12_HEAP_DESC : public D3D12_HEAP_DESC
         Alignment = resAllocInfo.Alignment;
         Flags = flags;
     }
-    CD3DX12_HEAP_DESC( 
+    CD3DX12_HEAP_DESC(
         const D3D12_RESOURCE_ALLOCATION_INFO& resAllocInfo,
-        D3D12_CPU_PAGE_PROPERTY cpuPageProperty, 
-        D3D12_MEMORY_POOL memoryPoolPreference, 
+        D3D12_CPU_PAGE_PROPERTY cpuPageProperty,
+        D3D12_MEMORY_POOL memoryPoolPreference,
         D3D12_HEAP_FLAGS flags = D3D12_HEAP_FLAG_NONE )
     {
         SizeInBytes = resAllocInfo.SizeInBytes;
@@ -389,7 +389,7 @@ struct CD3DX12_HEAP_DESC : public D3D12_HEAP_DESC
 inline bool operator==( const D3D12_HEAP_DESC& l, const D3D12_HEAP_DESC& r )
 {
     return l.SizeInBytes == r.SizeInBytes &&
-        l.Properties == r.Properties && 
+        l.Properties == r.Properties &&
         l.Alignment == r.Alignment &&
         l.Flags == r.Flags;
 }
@@ -404,15 +404,15 @@ struct CD3DX12_CLEAR_VALUE : public D3D12_CLEAR_VALUE
     explicit CD3DX12_CLEAR_VALUE(const D3D12_CLEAR_VALUE &o) :
         D3D12_CLEAR_VALUE(o)
     {}
-    CD3DX12_CLEAR_VALUE( 
-        DXGI_FORMAT format, 
+    CD3DX12_CLEAR_VALUE(
+        DXGI_FORMAT format,
         const FLOAT color[4] )
     {
         Format = format;
         memcpy( Color, color, sizeof( Color ) );
     }
-    CD3DX12_CLEAR_VALUE( 
-        DXGI_FORMAT format, 
+    CD3DX12_CLEAR_VALUE(
+        DXGI_FORMAT format,
         FLOAT depth,
         UINT8 stencil )
     {
@@ -432,8 +432,8 @@ struct CD3DX12_RANGE : public D3D12_RANGE
     explicit CD3DX12_RANGE(const D3D12_RANGE &o) :
         D3D12_RANGE(o)
     {}
-    CD3DX12_RANGE( 
-        SIZE_T begin, 
+    CD3DX12_RANGE(
+        SIZE_T begin,
         SIZE_T end )
     {
         Begin = begin;
@@ -450,11 +450,11 @@ struct CD3DX12_TILED_RESOURCE_COORDINATE : public D3D12_TILED_RESOURCE_COORDINAT
     explicit CD3DX12_TILED_RESOURCE_COORDINATE(const D3D12_TILED_RESOURCE_COORDINATE &o) :
         D3D12_TILED_RESOURCE_COORDINATE(o)
     {}
-    CD3DX12_TILED_RESOURCE_COORDINATE( 
-        UINT x, 
-        UINT y, 
-        UINT z, 
-        UINT subresource ) 
+    CD3DX12_TILED_RESOURCE_COORDINATE(
+        UINT x,
+        UINT y,
+        UINT z,
+        UINT subresource )
     {
         X = x;
         Y = y;
@@ -472,12 +472,12 @@ struct CD3DX12_TILE_REGION_SIZE : public D3D12_TILE_REGION_SIZE
     explicit CD3DX12_TILE_REGION_SIZE(const D3D12_TILE_REGION_SIZE &o) :
         D3D12_TILE_REGION_SIZE(o)
     {}
-    CD3DX12_TILE_REGION_SIZE( 
-        UINT numTiles, 
-        BOOL useBox, 
-        UINT width, 
-        UINT16 height, 
-        UINT16 depth ) 
+    CD3DX12_TILE_REGION_SIZE(
+        UINT numTiles,
+        BOOL useBox,
+        UINT width,
+        UINT16 height,
+        UINT16 depth )
     {
         NumTiles = numTiles;
         UseBox = useBox;
@@ -496,11 +496,11 @@ struct CD3DX12_SUBRESOURCE_TILING : public D3D12_SUBRESOURCE_TILING
     explicit CD3DX12_SUBRESOURCE_TILING(const D3D12_SUBRESOURCE_TILING &o) :
         D3D12_SUBRESOURCE_TILING(o)
     {}
-    CD3DX12_SUBRESOURCE_TILING( 
-        UINT widthInTiles, 
-        UINT16 heightInTiles, 
-        UINT16 depthInTiles, 
-        UINT startTileIndexInOverallResource ) 
+    CD3DX12_SUBRESOURCE_TILING(
+        UINT widthInTiles,
+        UINT16 heightInTiles,
+        UINT16 depthInTiles,
+        UINT startTileIndexInOverallResource )
     {
         WidthInTiles = widthInTiles;
         HeightInTiles = heightInTiles;
@@ -518,10 +518,10 @@ struct CD3DX12_TILE_SHAPE : public D3D12_TILE_SHAPE
     explicit CD3DX12_TILE_SHAPE(const D3D12_TILE_SHAPE &o) :
         D3D12_TILE_SHAPE(o)
     {}
-    CD3DX12_TILE_SHAPE( 
-        UINT widthInTexels, 
-        UINT heightInTexels, 
-        UINT depthInTexels ) 
+    CD3DX12_TILE_SHAPE(
+        UINT widthInTexels,
+        UINT heightInTexels,
+        UINT depthInTexels )
     {
         WidthInTexels = widthInTexels;
         HeightInTexels = heightInTexels;
@@ -589,11 +589,11 @@ struct CD3DX12_PACKED_MIP_INFO : public D3D12_PACKED_MIP_INFO
     explicit CD3DX12_PACKED_MIP_INFO(const D3D12_PACKED_MIP_INFO &o) :
         D3D12_PACKED_MIP_INFO(o)
     {}
-    CD3DX12_PACKED_MIP_INFO( 
-        UINT8 numStandardMips, 
-        UINT8 numPackedMips, 
-        UINT numTilesForPackedMips, 
-        UINT startTileIndexInOverallResource ) 
+    CD3DX12_PACKED_MIP_INFO(
+        UINT8 numStandardMips,
+        UINT8 numPackedMips,
+        UINT numTilesForPackedMips,
+        UINT startTileIndexInOverallResource )
     {
         NumStandardMips = numStandardMips;
         NumPackedMips = numPackedMips;
@@ -611,12 +611,12 @@ struct CD3DX12_SUBRESOURCE_FOOTPRINT : public D3D12_SUBRESOURCE_FOOTPRINT
     explicit CD3DX12_SUBRESOURCE_FOOTPRINT(const D3D12_SUBRESOURCE_FOOTPRINT &o) :
         D3D12_SUBRESOURCE_FOOTPRINT(o)
     {}
-    CD3DX12_SUBRESOURCE_FOOTPRINT( 
-        DXGI_FORMAT format, 
-        UINT width, 
-        UINT height, 
-        UINT depth, 
-        UINT rowPitch ) 
+    CD3DX12_SUBRESOURCE_FOOTPRINT(
+        DXGI_FORMAT format,
+        UINT width,
+        UINT height,
+        UINT depth,
+        UINT rowPitch )
     {
         Format = format;
         Width = width;
@@ -624,9 +624,9 @@ struct CD3DX12_SUBRESOURCE_FOOTPRINT : public D3D12_SUBRESOURCE_FOOTPRINT
         Depth = depth;
         RowPitch = rowPitch;
     }
-    explicit CD3DX12_SUBRESOURCE_FOOTPRINT( 
-        const D3D12_RESOURCE_DESC& resDesc, 
-        UINT rowPitch ) 
+    explicit CD3DX12_SUBRESOURCE_FOOTPRINT(
+        const D3D12_RESOURCE_DESC& resDesc,
+        UINT rowPitch )
     {
         Format = resDesc.Format;
         Width = UINT( resDesc.Width );
@@ -639,7 +639,7 @@ struct CD3DX12_SUBRESOURCE_FOOTPRINT : public D3D12_SUBRESOURCE_FOOTPRINT
 
 //------------------------------------------------------------------------------------------------
 struct CD3DX12_TEXTURE_COPY_LOCATION : public D3D12_TEXTURE_COPY_LOCATION
-{ 
+{
     CD3DX12_TEXTURE_COPY_LOCATION()
     {}
     explicit CD3DX12_TEXTURE_COPY_LOCATION(const D3D12_TEXTURE_COPY_LOCATION &o) :
@@ -658,7 +658,7 @@ struct CD3DX12_TEXTURE_COPY_LOCATION : public D3D12_TEXTURE_COPY_LOCATION
         Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
         SubresourceIndex = Sub;
     }
-}; 
+};
 
 //------------------------------------------------------------------------------------------------
 struct CD3DX12_DESCRIPTOR_RANGE : public D3D12_DESCRIPTOR_RANGE
@@ -677,7 +677,7 @@ struct CD3DX12_DESCRIPTOR_RANGE : public D3D12_DESCRIPTOR_RANGE
     {
         Init(rangeType, numDescriptors, baseShaderRegister, registerSpace, offsetInDescriptorsFromTableStart);
     }
-    
+
     inline void Init(
         D3D12_DESCRIPTOR_RANGE_TYPE rangeType,
         UINT numDescriptors,
@@ -688,7 +688,7 @@ struct CD3DX12_DESCRIPTOR_RANGE : public D3D12_DESCRIPTOR_RANGE
     {
         Init(*this, rangeType, numDescriptors, baseShaderRegister, registerSpace, offsetInDescriptorsFromTableStart);
     }
-    
+
     static inline void Init(
         _Out_ D3D12_DESCRIPTOR_RANGE &range,
         D3D12_DESCRIPTOR_RANGE_TYPE rangeType,
@@ -719,14 +719,14 @@ struct CD3DX12_ROOT_DESCRIPTOR_TABLE : public D3D12_ROOT_DESCRIPTOR_TABLE
     {
         Init(numDescriptorRanges, _pDescriptorRanges);
     }
-    
+
     inline void Init(
         UINT numDescriptorRanges,
         _In_reads_(numDescriptorRanges) const D3D12_DESCRIPTOR_RANGE* _pDescriptorRanges)
     {
         Init(*this, numDescriptorRanges, _pDescriptorRanges);
     }
-    
+
     static inline void Init(
         _Out_ D3D12_ROOT_DESCRIPTOR_TABLE &rootDescriptorTable,
         UINT numDescriptorRanges,
@@ -751,7 +751,7 @@ struct CD3DX12_ROOT_CONSTANTS : public D3D12_ROOT_CONSTANTS
     {
         Init(num32BitValues, shaderRegister, registerSpace);
     }
-    
+
     inline void Init(
         UINT num32BitValues,
         UINT shaderRegister,
@@ -759,7 +759,7 @@ struct CD3DX12_ROOT_CONSTANTS : public D3D12_ROOT_CONSTANTS
     {
         Init(*this, num32BitValues, shaderRegister, registerSpace);
     }
-    
+
     static inline void Init(
         _Out_ D3D12_ROOT_CONSTANTS &rootConstants,
         UINT num32BitValues,
@@ -785,14 +785,14 @@ struct CD3DX12_ROOT_DESCRIPTOR : public D3D12_ROOT_DESCRIPTOR
     {
         Init(shaderRegister, registerSpace);
     }
-    
+
     inline void Init(
         UINT shaderRegister,
         UINT registerSpace = 0)
     {
         Init(*this, shaderRegister, registerSpace);
     }
-    
+
     static inline void Init(_Out_ D3D12_ROOT_DESCRIPTOR &table, UINT shaderRegister, UINT registerSpace = 0)
     {
         table.ShaderRegister = shaderRegister;
@@ -807,7 +807,7 @@ struct CD3DX12_ROOT_PARAMETER : public D3D12_ROOT_PARAMETER
     explicit CD3DX12_ROOT_PARAMETER(const D3D12_ROOT_PARAMETER &o) :
         D3D12_ROOT_PARAMETER(o)
     {}
-    
+
     static inline void InitAsDescriptorTable(
         _Out_ D3D12_ROOT_PARAMETER &rootParam,
         UINT numDescriptorRanges,
@@ -863,7 +863,7 @@ struct CD3DX12_ROOT_PARAMETER : public D3D12_ROOT_PARAMETER
         rootParam.ShaderVisibility = visibility;
         CD3DX12_ROOT_DESCRIPTOR::Init(rootParam.Descriptor, shaderRegister, registerSpace);
     }
-    
+
     inline void InitAsDescriptorTable(
         UINT numDescriptorRanges,
         _In_reads_(numDescriptorRanges) const D3D12_DESCRIPTOR_RANGE* pDescriptorRanges,
@@ -871,7 +871,7 @@ struct CD3DX12_ROOT_PARAMETER : public D3D12_ROOT_PARAMETER
     {
         InitAsDescriptorTable(*this, numDescriptorRanges, pDescriptorRanges, visibility);
     }
-    
+
     inline void InitAsConstants(
         UINT num32BitValues,
         UINT shaderRegister,
@@ -925,7 +925,7 @@ struct CD3DX12_STATIC_SAMPLER_DESC : public D3D12_STATIC_SAMPLER_DESC
          D3D12_STATIC_BORDER_COLOR borderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE,
          FLOAT minLOD = 0.f,
          FLOAT maxLOD = D3D12_FLOAT32_MAX,
-         D3D12_SHADER_VISIBILITY shaderVisibility = D3D12_SHADER_VISIBILITY_ALL, 
+         D3D12_SHADER_VISIBILITY shaderVisibility = D3D12_SHADER_VISIBILITY_ALL,
          UINT registerSpace = 0)
     {
         Init(
@@ -943,7 +943,7 @@ struct CD3DX12_STATIC_SAMPLER_DESC : public D3D12_STATIC_SAMPLER_DESC
             shaderVisibility,
             registerSpace);
     }
-    
+
     static inline void Init(
         _Out_ D3D12_STATIC_SAMPLER_DESC &samplerDesc,
          UINT shaderRegister,
@@ -957,7 +957,7 @@ struct CD3DX12_STATIC_SAMPLER_DESC : public D3D12_STATIC_SAMPLER_DESC
          D3D12_STATIC_BORDER_COLOR borderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE,
          FLOAT minLOD = 0.f,
          FLOAT maxLOD = D3D12_FLOAT32_MAX,
-         D3D12_SHADER_VISIBILITY shaderVisibility = D3D12_SHADER_VISIBILITY_ALL, 
+         D3D12_SHADER_VISIBILITY shaderVisibility = D3D12_SHADER_VISIBILITY_ALL,
          UINT registerSpace = 0)
     {
         samplerDesc.ShaderRegister = shaderRegister;
@@ -986,7 +986,7 @@ struct CD3DX12_STATIC_SAMPLER_DESC : public D3D12_STATIC_SAMPLER_DESC
          D3D12_STATIC_BORDER_COLOR borderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE,
          FLOAT minLOD = 0.f,
          FLOAT maxLOD = D3D12_FLOAT32_MAX,
-         D3D12_SHADER_VISIBILITY shaderVisibility = D3D12_SHADER_VISIBILITY_ALL, 
+         D3D12_SHADER_VISIBILITY shaderVisibility = D3D12_SHADER_VISIBILITY_ALL,
          UINT registerSpace = 0)
     {
         Init(
@@ -1005,7 +1005,7 @@ struct CD3DX12_STATIC_SAMPLER_DESC : public D3D12_STATIC_SAMPLER_DESC
             shaderVisibility,
             registerSpace);
     }
-    
+
 };
 
 //------------------------------------------------------------------------------------------------
@@ -1072,12 +1072,12 @@ struct CD3DX12_CPU_DESCRIPTOR_HANDLE : public D3D12_CPU_DESCRIPTOR_HANDLE
         InitOffsetted(other, offsetInDescriptors, descriptorIncrementSize);
     }
     CD3DX12_CPU_DESCRIPTOR_HANDLE& Offset(INT offsetInDescriptors, UINT descriptorIncrementSize)
-    { 
+    {
         ptr += offsetInDescriptors * descriptorIncrementSize;
         return *this;
     }
-    CD3DX12_CPU_DESCRIPTOR_HANDLE& Offset(INT offsetScaledByIncrementSize) 
-    { 
+    CD3DX12_CPU_DESCRIPTOR_HANDLE& Offset(INT offsetScaledByIncrementSize)
+    {
         ptr += offsetScaledByIncrementSize;
         return *this;
     }
@@ -1094,22 +1094,22 @@ struct CD3DX12_CPU_DESCRIPTOR_HANDLE : public D3D12_CPU_DESCRIPTOR_HANDLE
         ptr = other.ptr;
         return *this;
     }
-    
+
     inline void InitOffsetted(_In_ const D3D12_CPU_DESCRIPTOR_HANDLE &base, INT offsetScaledByIncrementSize)
     {
         InitOffsetted(*this, base, offsetScaledByIncrementSize);
     }
-    
+
     inline void InitOffsetted(_In_ const D3D12_CPU_DESCRIPTOR_HANDLE &base, INT offsetInDescriptors, UINT descriptorIncrementSize)
     {
         InitOffsetted(*this, base, offsetInDescriptors, descriptorIncrementSize);
     }
-    
+
     static inline void InitOffsetted(_Out_ D3D12_CPU_DESCRIPTOR_HANDLE &handle, _In_ const D3D12_CPU_DESCRIPTOR_HANDLE &base, INT offsetScaledByIncrementSize)
     {
         handle.ptr = base.ptr + offsetScaledByIncrementSize;
     }
-    
+
     static inline void InitOffsetted(_Out_ D3D12_CPU_DESCRIPTOR_HANDLE &handle, _In_ const D3D12_CPU_DESCRIPTOR_HANDLE &base, INT offsetInDescriptors, UINT descriptorIncrementSize)
     {
         handle.ptr = base.ptr + offsetInDescriptors * descriptorIncrementSize;
@@ -1133,12 +1133,12 @@ struct CD3DX12_GPU_DESCRIPTOR_HANDLE : public D3D12_GPU_DESCRIPTOR_HANDLE
         InitOffsetted(other, offsetInDescriptors, descriptorIncrementSize);
     }
     CD3DX12_GPU_DESCRIPTOR_HANDLE& Offset(INT offsetInDescriptors, UINT descriptorIncrementSize)
-    { 
+    {
         ptr += offsetInDescriptors * descriptorIncrementSize;
         return *this;
     }
-    CD3DX12_GPU_DESCRIPTOR_HANDLE& Offset(INT offsetScaledByIncrementSize) 
-    { 
+    CD3DX12_GPU_DESCRIPTOR_HANDLE& Offset(INT offsetScaledByIncrementSize)
+    {
         ptr += offsetScaledByIncrementSize;
         return *this;
     }
@@ -1155,22 +1155,22 @@ struct CD3DX12_GPU_DESCRIPTOR_HANDLE : public D3D12_GPU_DESCRIPTOR_HANDLE
         ptr = other.ptr;
         return *this;
     }
-    
+
     inline void InitOffsetted(_In_ const D3D12_GPU_DESCRIPTOR_HANDLE &base, INT offsetScaledByIncrementSize)
     {
         InitOffsetted(*this, base, offsetScaledByIncrementSize);
     }
-    
+
     inline void InitOffsetted(_In_ const D3D12_GPU_DESCRIPTOR_HANDLE &base, INT offsetInDescriptors, UINT descriptorIncrementSize)
     {
         InitOffsetted(*this, base, offsetInDescriptors, descriptorIncrementSize);
     }
-    
+
     static inline void InitOffsetted(_Out_ D3D12_GPU_DESCRIPTOR_HANDLE &handle, _In_ const D3D12_GPU_DESCRIPTOR_HANDLE &base, INT offsetScaledByIncrementSize)
     {
         handle.ptr = base.ptr + offsetScaledByIncrementSize;
     }
-    
+
     static inline void InitOffsetted(_Out_ D3D12_GPU_DESCRIPTOR_HANDLE &handle, _In_ const D3D12_GPU_DESCRIPTOR_HANDLE &base, INT offsetInDescriptors, UINT descriptorIncrementSize)
     {
         handle.ptr = base.ptr + offsetInDescriptors * descriptorIncrementSize;
@@ -1179,8 +1179,8 @@ struct CD3DX12_GPU_DESCRIPTOR_HANDLE : public D3D12_GPU_DESCRIPTOR_HANDLE
 
 //------------------------------------------------------------------------------------------------
 inline UINT D3D12CalcSubresource( UINT MipSlice, UINT ArraySlice, UINT PlaneSlice, UINT MipLevels, UINT ArraySize )
-{ 
-    return MipSlice + ArraySlice * MipLevels + PlaneSlice * MipLevels * ArraySize; 
+{
+    return MipSlice + ArraySlice * MipLevels + PlaneSlice * MipLevels * ArraySize;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -1214,7 +1214,7 @@ struct CD3DX12_RESOURCE_DESC : public D3D12_RESOURCE_DESC
     explicit CD3DX12_RESOURCE_DESC( const D3D12_RESOURCE_DESC& o ) :
         D3D12_RESOURCE_DESC( o )
     {}
-    CD3DX12_RESOURCE_DESC( 
+    CD3DX12_RESOURCE_DESC(
         D3D12_RESOURCE_DIMENSION dimension,
         UINT64 alignment,
         UINT64 width,
@@ -1239,22 +1239,22 @@ struct CD3DX12_RESOURCE_DESC : public D3D12_RESOURCE_DESC
         Layout = layout;
         Flags = flags;
     }
-    static inline CD3DX12_RESOURCE_DESC Buffer( 
+    static inline CD3DX12_RESOURCE_DESC Buffer(
         const D3D12_RESOURCE_ALLOCATION_INFO& resAllocInfo,
         D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE )
     {
-        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_BUFFER, resAllocInfo.Alignment, resAllocInfo.SizeInBytes, 
+        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_BUFFER, resAllocInfo.Alignment, resAllocInfo.SizeInBytes,
             1, 1, 1, DXGI_FORMAT_UNKNOWN, 1, 0, D3D12_TEXTURE_LAYOUT_ROW_MAJOR, flags );
     }
-    static inline CD3DX12_RESOURCE_DESC Buffer( 
+    static inline CD3DX12_RESOURCE_DESC Buffer(
         UINT64 width,
         D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE,
         UINT64 alignment = 0 )
     {
-        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_BUFFER, alignment, width, 1, 1, 1, 
+        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_BUFFER, alignment, width, 1, 1, 1,
             DXGI_FORMAT_UNKNOWN, 1, 0, D3D12_TEXTURE_LAYOUT_ROW_MAJOR, flags );
     }
-    static inline CD3DX12_RESOURCE_DESC Tex1D( 
+    static inline CD3DX12_RESOURCE_DESC Tex1D(
         DXGI_FORMAT format,
         UINT64 width,
         UINT16 arraySize = 1,
@@ -1263,10 +1263,10 @@ struct CD3DX12_RESOURCE_DESC : public D3D12_RESOURCE_DESC
         D3D12_TEXTURE_LAYOUT layout = D3D12_TEXTURE_LAYOUT_UNKNOWN,
         UINT64 alignment = 0 )
     {
-        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_TEXTURE1D, alignment, width, 1, arraySize, 
+        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_TEXTURE1D, alignment, width, 1, arraySize,
             mipLevels, format, 1, 0, layout, flags );
     }
-    static inline CD3DX12_RESOURCE_DESC Tex2D( 
+    static inline CD3DX12_RESOURCE_DESC Tex2D(
         DXGI_FORMAT format,
         UINT64 width,
         UINT height,
@@ -1278,10 +1278,10 @@ struct CD3DX12_RESOURCE_DESC : public D3D12_RESOURCE_DESC
         D3D12_TEXTURE_LAYOUT layout = D3D12_TEXTURE_LAYOUT_UNKNOWN,
         UINT64 alignment = 0 )
     {
-        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_TEXTURE2D, alignment, width, height, arraySize, 
+        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_TEXTURE2D, alignment, width, height, arraySize,
             mipLevels, format, sampleCount, sampleQuality, layout, flags );
     }
-    static inline CD3DX12_RESOURCE_DESC Tex3D( 
+    static inline CD3DX12_RESOURCE_DESC Tex3D(
         DXGI_FORMAT format,
         UINT64 width,
         UINT height,
@@ -1291,7 +1291,7 @@ struct CD3DX12_RESOURCE_DESC : public D3D12_RESOURCE_DESC
         D3D12_TEXTURE_LAYOUT layout = D3D12_TEXTURE_LAYOUT_UNKNOWN,
         UINT64 alignment = 0 )
     {
-        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_TEXTURE3D, alignment, width, height, depth, 
+        return CD3DX12_RESOURCE_DESC( D3D12_RESOURCE_DIMENSION_TEXTURE3D, alignment, width, height, depth,
             mipLevels, format, 1, 0, layout, flags );
     }
     inline UINT16 Depth() const
@@ -1354,12 +1354,12 @@ inline UINT64 GetRequiredIntermediateSize(
 {
     D3D12_RESOURCE_DESC Desc = pDestinationResource->GetDesc();
     UINT64 RequiredSize = 0;
-    
+
     ID3D12Device* pDevice;
     pDestinationResource->GetDevice(__uuidof(*pDevice), reinterpret_cast<void**>(&pDevice));
     pDevice->GetCopyableFootprints(&Desc, FirstSubresource, NumSubresources, 0, nullptr, nullptr, nullptr, &RequiredSize);
     pDevice->Release();
-    
+
     return RequiredSize;
 }
 
@@ -1380,22 +1380,22 @@ inline UINT64 UpdateSubresources(
     // Minor validation
     D3D12_RESOURCE_DESC IntermediateDesc = pIntermediate->GetDesc();
     D3D12_RESOURCE_DESC DestinationDesc = pDestinationResource->GetDesc();
-    if (IntermediateDesc.Dimension != D3D12_RESOURCE_DIMENSION_BUFFER || 
-        IntermediateDesc.Width < RequiredSize + pLayouts[0].Offset || 
-        RequiredSize > (SIZE_T)-1 || 
-        (DestinationDesc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER && 
+    if (IntermediateDesc.Dimension != D3D12_RESOURCE_DIMENSION_BUFFER ||
+        IntermediateDesc.Width < RequiredSize + pLayouts[0].Offset ||
+        RequiredSize > (SIZE_T)-1 ||
+        (DestinationDesc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER &&
             (FirstSubresource != 0 || NumSubresources != 1)))
     {
         return 0;
     }
-    
+
     BYTE* pData;
     HRESULT hr = pIntermediate->Map(0, NULL, reinterpret_cast<void**>(&pData));
     if (FAILED(hr))
     {
         return 0;
     }
-    
+
     for (UINT i = 0; i < NumSubresources; ++i)
     {
         if (pRowSizesInBytes[i] > (SIZE_T)-1) return 0;
@@ -1403,7 +1403,7 @@ inline UINT64 UpdateSubresources(
         MemcpySubresource(&DestData, &pSrcData[i], (SIZE_T)pRowSizesInBytes[i], pNumRows[i], pLayouts[i].Footprint.Depth);
     }
     pIntermediate->Unmap(0, NULL);
-    
+
     if (DestinationDesc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER)
     {
         CD3DX12_BOX SrcBox( UINT( pLayouts[0].Offset ), UINT( pLayouts[0].Offset + pLayouts[0].Footprint.Width ) );
@@ -1424,7 +1424,7 @@ inline UINT64 UpdateSubresources(
 
 //------------------------------------------------------------------------------------------------
 // Heap-allocating UpdateSubresources implementation
-inline UINT64 UpdateSubresources( 
+inline UINT64 UpdateSubresources(
     _In_ ID3D12GraphicsCommandList* pCmdList,
     _In_ ID3D12Resource* pDestinationResource,
     _In_ ID3D12Resource* pIntermediate,
@@ -1447,13 +1447,13 @@ inline UINT64 UpdateSubresources(
     D3D12_PLACED_SUBRESOURCE_FOOTPRINT* pLayouts = reinterpret_cast<D3D12_PLACED_SUBRESOURCE_FOOTPRINT*>(pMem);
     UINT64* pRowSizesInBytes = reinterpret_cast<UINT64*>(pLayouts + NumSubresources);
     UINT* pNumRows = reinterpret_cast<UINT*>(pRowSizesInBytes + NumSubresources);
-    
+
     D3D12_RESOURCE_DESC Desc = pDestinationResource->GetDesc();
     ID3D12Device* pDevice;
     pDestinationResource->GetDevice(__uuidof(*pDevice), reinterpret_cast<void**>(&pDevice));
     pDevice->GetCopyableFootprints(&Desc, FirstSubresource, NumSubresources, IntermediateOffset, pLayouts, pNumRows, pRowSizesInBytes, &RequiredSize);
     pDevice->Release();
-    
+
     UINT64 Result = UpdateSubresources(pCmdList, pDestinationResource, pIntermediate, FirstSubresource, NumSubresources, RequiredSize, pLayouts, pNumRows, pRowSizesInBytes, pSrcData);
     HeapFree(GetProcessHeap(), 0, pMem);
     return Result;
@@ -1462,7 +1462,7 @@ inline UINT64 UpdateSubresources(
 //------------------------------------------------------------------------------------------------
 // Stack-allocating UpdateSubresources implementation
 template <UINT MaxSubresources>
-inline UINT64 UpdateSubresources( 
+inline UINT64 UpdateSubresources(
     _In_ ID3D12GraphicsCommandList* pCmdList,
     _In_ ID3D12Resource* pDestinationResource,
     _In_ ID3D12Resource* pIntermediate,
@@ -1475,13 +1475,13 @@ inline UINT64 UpdateSubresources(
     D3D12_PLACED_SUBRESOURCE_FOOTPRINT Layouts[MaxSubresources];
     UINT NumRows[MaxSubresources];
     UINT64 RowSizesInBytes[MaxSubresources];
-    
+
     D3D12_RESOURCE_DESC Desc = pDestinationResource->GetDesc();
     ID3D12Device* pDevice;
     pDestinationResource->GetDevice(__uuidof(*pDevice), reinterpret_cast<void**>(&pDevice));
     pDevice->GetCopyableFootprints(&Desc, FirstSubresource, NumSubresources, IntermediateOffset, Layouts, NumRows, RowSizesInBytes, &RequiredSize);
     pDevice->Release();
-    
+
     return UpdateSubresources(pCmdList, pDestinationResource, pIntermediate, FirstSubresource, NumSubresources, RequiredSize, Layouts, NumRows, RowSizesInBytes, pSrcData);
 }
 
